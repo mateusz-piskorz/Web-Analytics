@@ -22,7 +22,7 @@ model Analytic {
   projectId String
   country   String
   OS        String
-  Browser   String
+  browser   String
 }
 
 // model Event {
