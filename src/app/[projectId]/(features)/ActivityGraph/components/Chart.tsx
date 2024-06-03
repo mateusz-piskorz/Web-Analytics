@@ -1,10 +1,11 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { scaleLinear, scaleUtc } from "@visx/scale";
+import { GridRows } from "@visx/grid";
 import { max } from "@visx/vendor/d3-array";
 import React, { FC, useMemo } from "react";
 import { getMinMax } from "../utils";
 import { margin } from "../constants";
-import { GridRows } from "@visx/grid";
+import { LinePath } from "@visx/shape";
 
 const visitorsData = [
   { x: new Date("2024-04-24"), y: 0 },
@@ -69,6 +70,15 @@ export const Chart: FC = () => {
           left={margin}
           scale={yScale}
           numTicks={2}
+        />
+
+        <LinePath
+          data={visitorsData}
+          x={({ x }) => xScale(x)}
+          y={({ y }) => yScale(y)}
+          strokeDasharray={7}
+          strokeWidth={2}
+          stroke="#0070F3"
         />
       </svg>
     </div>
