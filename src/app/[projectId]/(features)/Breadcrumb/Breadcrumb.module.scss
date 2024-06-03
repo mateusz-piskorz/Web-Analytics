@@ -1,21 +1,19 @@
 .Breadcrumb {
-  color: white;
+  color: var(--gray-text);
   display: flex;
+  align-items: center;
   gap: 10px;
 
-  &_Home {
+  &_Link {
+    align-items: center;
+    fill: white;
+    cursor: pointer;
     color: white;
-  }
-
-  &_Slash {
-    color: var(--gray-text);
-  }
-
-  &_ProjectName {
-    color: var(--gray-text);
-  }
-
-  &_Img {
-    color: white;
+    display: flex;
+    gap: 10px;
+    &:hover {
+      fill: #0070f3;
+      color: #0070f3;
+    }
   }
 }
