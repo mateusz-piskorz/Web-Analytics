@@ -4,6 +4,7 @@ import { max } from "@visx/vendor/d3-array";
 import React, { FC, useMemo } from "react";
 import { getMinMax } from "../utils";
 import { margin } from "../constants";
+import { GridRows } from "@visx/grid";
 
 const visitorsData = [
   { x: new Date("2024-04-24"), y: 0 },
@@ -41,6 +42,17 @@ export const Chart: FC = () => {
     <div>
       <svg width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} />
+
+        <GridRows
+          numTicks={2}
+          left={margin}
+          width={width - margin - margin}
+          height={height - margin}
+          scale={yScale}
+          stroke="#262626"
+          z={2}
+        />
+
         <AxisBottom
           hideAxisLine
           hideTicks
