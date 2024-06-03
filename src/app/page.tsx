@@ -2,13 +2,13 @@ import styles from "./page.module.scss";
 import Link from "next/link";
 
 const navList = [
-  { name: "Audiophile", href: "audiophile" },
-  { name: "Google Drive Clone", href: "google-drive-clone" },
+  { name: "Audiophile", href: "audiophile/dashboard" },
+  { name: "Google Drive Clone", href: "google-drive-clone/dashboard" },
   {
     name: "Interactive Comments Section",
-    href: "interactive-comments-section",
+    href: "interactive-comments-section/dashboard",
   },
-  { name: "Multi Step Form", href: "google-drive-clone" },
+  { name: "Multi Step Form", href: "google-drive-clone/dashboard" },
 ];
 console.log(styles);
 export default function Home() {

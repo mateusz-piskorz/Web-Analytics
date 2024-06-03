@@ -1,10 +1,9 @@
 import React, { FC } from "react";
-import { ActivityGraph } from "./(features)/ActivityGraph";
 
 const Page: FC<{ params: { projectId: string } }> = ({
   params: { projectId },
 }) => {
-  return <ActivityGraph />;
+  return <h1>Hi</h1>;
 };
 
 export default Page;
