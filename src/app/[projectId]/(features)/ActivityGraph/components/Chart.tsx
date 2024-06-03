@@ -1,5 +1,6 @@
-import { AxisBottom } from "@visx/axis";
-import { scaleUtc } from "@visx/scale";
+import { AxisBottom, AxisLeft } from "@visx/axis";
+import { scaleLinear, scaleUtc } from "@visx/scale";
+import { max } from "@visx/vendor/d3-array";
 import React, { FC, useMemo } from "react";
 import { getMinMax } from "../utils";
 import { margin } from "../constants";
@@ -27,6 +28,15 @@ export const Chart: FC = () => {
       }),
     [width]
   );
+  const yScale = useMemo(
+    () =>
+      scaleLinear({
+        range: [height - margin, margin],
+        domain: [0, max(visitorsData, (d: any) => d.y) || 0],
+        nice: true,
+      }),
+    [height]
+  );
   return (
     <div>
       <svg width={width} height={height}>
@@ -38,6 +48,15 @@ export const Chart: FC = () => {
           top={height - margin + 5}
           tickLabelProps={{ fill: "white" }}
           tickValues={xValues}
+        />
+
+        <AxisLeft
+          hideTicks
+          hideAxisLine
+          tickLabelProps={{ fill: "white" }}
+          left={margin}
+          scale={yScale}
+          numTicks={2}
         />
       </svg>
     </div>
