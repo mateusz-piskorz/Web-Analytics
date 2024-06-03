@@ -15,7 +15,11 @@ export const Header: FC<HeaderProps> = ({ projectId }) => {
     <header className={styles.Header}>
       <Breadcrumb projectName={projectId} />
       <Hamburger onClick={() => setIsNavOpen((prev) => !prev)} />
-      <Navigation projectName={projectId} isNavOpen={isNavOpen} />
+      <Navigation
+        setNavClose={() => setIsNavOpen(false)}
+        projectName={projectId}
+        isNavOpen={isNavOpen}
+      />
     </header>
   );
 };
