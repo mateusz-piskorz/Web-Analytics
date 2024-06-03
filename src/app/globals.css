@@ -1,3 +1,7 @@
+:root {
+  --gray-text: rgba(255, 255, 255, 0.6);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

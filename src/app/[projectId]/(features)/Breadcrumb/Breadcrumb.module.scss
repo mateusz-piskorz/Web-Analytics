@@ -1,0 +1,21 @@
+.Breadcrumb {
+  color: white;
+  display: flex;
+  gap: 10px;
+
+  &_Home {
+    color: white;
+  }
+
+  &_Slash {
+    color: var(--gray-text);
+  }
+
+  &_ProjectName {
+    color: var(--gray-text);
+  }
+
+  &_Img {
+    color: white;
+  }
+}
