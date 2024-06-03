@@ -1,19 +1,22 @@
 import React, { FC } from "react";
 import { Breadcrumb } from "./(features)/Breadcrumb";
-import { Hamburger } from "./(features)/Hamburger";
+import { Header } from "./(features)/Header";
 import styles from "./layout.module.scss";
 import { Navigation } from "./(features)/Navigation";
-import { Header } from "./(features)/Header";
 
 const ProjectsLayout: FC<{
   children: React.ReactNode;
   params: { projectId: string };
 }> = ({ children, params: { projectId } }) => {
   return (
-    <>
+    <div className={styles.Wrapper}>
       <Header projectId={projectId} />
-      {/* <div>{children}</div> */}
-    </>
+
+      <div className={styles.WrapperRightSide}>
+        <Breadcrumb projectName={projectId} onlyOnDesktop />
+        {children}
+      </div>
+    </div>
   );
 };
 

@@ -12,14 +12,16 @@ type HeaderProps = {
 export const Header: FC<HeaderProps> = ({ projectId }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
-    <header className={styles.Header}>
-      <Breadcrumb projectName={projectId} />
-      <Hamburger onClick={() => setIsNavOpen((prev) => !prev)} />
-      <Navigation
-        setNavClose={() => setIsNavOpen(false)}
-        projectName={projectId}
-        isNavOpen={isNavOpen}
-      />
-    </header>
+    <>
+      <header className={styles.Header}>
+        <Breadcrumb projectName={projectId} />
+        <Hamburger onClick={() => setIsNavOpen((prev) => !prev)} />
+        <Navigation
+          setNavClose={() => setIsNavOpen(false)}
+          projectName={projectId}
+          isNavOpen={isNavOpen}
+        />
+      </header>
+    </>
   );
 };

@@ -4,6 +4,10 @@
   align-items: center;
   gap: 10px;
 
+  &__hiddenOnMobile {
+    display: none;
+  }
+
   &_Link {
     align-items: center;
     fill: white;
@@ -14,6 +18,15 @@
     &:hover {
       fill: #0070f3;
       color: #0070f3;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .Breadcrumb {
+    display: none;
+    &__hiddenOnMobile {
+      display: flex;
     }
   }
 }

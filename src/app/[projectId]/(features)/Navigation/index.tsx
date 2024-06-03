@@ -1,11 +1,14 @@
 import React, { FC } from "react";
 import styles from "./Navigation.module.scss";
 import Link from "next/link";
+import { AnalyticsSvg } from "./components/AnalyticsSvg";
+import { DashboardSvg } from "./components/DashboardSvg";
 
 type NavigationProps = {
   projectName: string;
   isNavOpen: boolean;
-  setNavClose: () => void;
+  setNavClose?: () => void;
+  desktopCase?: boolean;
 };
 
 export const Navigation: FC<NavigationProps> = ({
@@ -24,7 +27,8 @@ export const Navigation: FC<NavigationProps> = ({
             className={`${styles.Nav_Link} ${styles.Nav_Link__active}`}
             href={`/${projectName}/dashboard`}
           >
-            Dashboard
+            <DashboardSvg />
+            <span>Dashboard</span>
           </Link>
         </li>
         <li className={styles.Nav_Item}>
@@ -33,7 +37,8 @@ export const Navigation: FC<NavigationProps> = ({
             className={styles.Nav_Link}
             href={`/${projectName}/analytics`}
           >
-            Analytics
+            <AnalyticsSvg />
+            <span>Analytics</span>
           </Link>
         </li>
       </ul>
