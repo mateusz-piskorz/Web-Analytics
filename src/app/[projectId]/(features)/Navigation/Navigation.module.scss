@@ -1,9 +1,38 @@
 .Nav {
-  display: flex;
   background-color: white;
   position: absolute;
   top: 80px;
   left: 0;
   width: 100vw;
   height: 100vh;
+  padding-top: 40px;
+  justify-content: center;
+
+  &__hidden {
+    display: none;
+  }
+
+  &_List {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_Link {
+    font-size: 1.2rem;
+    border-radius: 5px;
+    padding: 7px 20px;
+    display: block;
+    color: black;
+  }
+
+  &_Link__active {
+    background-color: #c7c7c7;
+  }
+
+  &_Item {
+    list-style-type: none;
+  }
 }

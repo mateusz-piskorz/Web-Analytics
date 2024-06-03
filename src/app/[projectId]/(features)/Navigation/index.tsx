@@ -4,15 +4,27 @@ import Link from "next/link";
 
 type NavigationProps = {
   projectName: string;
+  isNavOpen: boolean;
 };
 
-export const Navigation: FC<NavigationProps> = ({ projectName }) => {
+export const Navigation: FC<NavigationProps> = ({ projectName, isNavOpen }) => {
   return (
-    <nav className={styles.Nav}>
-      <ul>
-        <li>
-          <Link href={`/${projectName}/dashboard`}>Dashboard</Link>
-          <Link href={`/${projectName}/analytics`}>Analytics</Link>
+    <nav
+      className={`${styles.Nav}${!isNavOpen ? " " + styles.Nav__hidden : ""}`}
+    >
+      <ul className={styles.Nav_List}>
+        <li className={styles.Nav_Item}>
+          <Link
+            className={`${styles.Nav_Link} ${styles.Nav_Link__active}`}
+            href={`/${projectName}/dashboard`}
+          >
+            Dashboard
+          </Link>
+        </li>
+        <li className={styles.Nav_Item}>
+          <Link className={styles.Nav_Link} href={`/${projectName}/analytics`}>
+            Analytics
+          </Link>
         </li>
       </ul>
     </nav>
