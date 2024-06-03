@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Breadcrumb } from "./(features)/Breadcrumb";
+import { Hamburger } from "./(features)/Hamburger";
 import styles from "./layout.module.scss";
 
 const ProjectsLayout: FC<{
@@ -10,7 +11,7 @@ const ProjectsLayout: FC<{
     <>
       <header className={styles.Header}>
         <Breadcrumb projectName={projectId} />
-
+        <Hamburger />
         {/* <nav>
         <ul>
           <li></li>
