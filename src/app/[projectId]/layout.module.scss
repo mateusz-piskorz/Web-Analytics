@@ -5,7 +5,7 @@
   &_RightSide {
     display: flex;
     flex-direction: column;
-    padding-top: 30px;
+    padding-top: 40px;
     gap: 25px;
   }
 }
@@ -14,6 +14,7 @@
   .Wrapper {
     &_RightSide {
       padding: 30px;
+      padding-top: 40px;
     }
   }
 }
