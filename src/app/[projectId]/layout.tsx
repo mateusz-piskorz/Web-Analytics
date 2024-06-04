@@ -3,7 +3,7 @@ import { Breadcrumb } from "./(features)/Breadcrumb";
 import { Header } from "./(features)/Header";
 import styles from "./layout.module.scss";
 import { Navigation } from "./(features)/Navigation";
-
+import { Heading } from "./(features)/Heading";
 const ProjectsLayout: FC<{
   children: React.ReactNode;
   params: { projectId: string };
@@ -14,6 +14,7 @@ const ProjectsLayout: FC<{
 
       <div className={styles.Wrapper_RightSide}>
         <Breadcrumb projectName={projectId} onlyOnDesktop />
+        <Heading />
         {children}
       </div>
     </div>

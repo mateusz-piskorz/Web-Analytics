@@ -31,6 +31,7 @@
     padding: 7px 20px;
     color: black;
     stroke: black;
+    fill: black;
     &:hover {
       background-color: #c7c7c7;
     }
@@ -62,6 +63,7 @@
     &_Link {
       color: white;
       padding: 12px;
+      stroke: white;
       & > span {
         display: none;
       }

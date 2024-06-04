@@ -16,8 +16,8 @@
     display: flex;
     gap: 10px;
     &:hover {
-      fill: #0070f3;
-      color: #0070f3;
+      color: var(--blue-accent);
+      fill: var(--blue-accent);
     }
   }
 }

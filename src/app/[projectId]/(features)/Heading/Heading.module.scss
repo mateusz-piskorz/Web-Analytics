@@ -1,0 +1,26 @@
+.Heading {
+  color: white;
+  padding-left: 30px;
+  align-self: flex-start;
+  &_Title {
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  &_Link {
+    fill: var(--gray-text);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    &:hover {
+      color: var(--blue-accent);
+      fill: var(--blue-accent);
+    }
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .Heading {
+    padding-left: 0;
+  }
+}

@@ -18,13 +18,11 @@
 }
 
 .Wrapper {
-  border: 1px solid #252525;
   width: 100%;
-  border-radius: 15px;
   overflow: hidden;
 
   &_Header {
-    height: 100px;
+    height: 80px;
     width: 100%;
     background-color: var(--primary);
     display: flex;
@@ -42,5 +40,12 @@
 
   &_Percentages {
     color: white;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .Wrapper {
+    border: 1px solid var(--primary-border);
+    border-radius: 15px;
   }
 }
