@@ -2,27 +2,31 @@ import React, { FC } from "react";
 import { ActivityGraph } from "./(features)/ActivityGraph";
 import { ActivityList } from "./(features)/ActivityList";
 import style from "./styles.module.scss";
+import { PrismaClient } from "@prisma/client";
+
+const db = new PrismaClient();
 
 type DashboardProps = { params: { projectId: string } };
 
-const countriesArr = [
-  { name: "Poland", quantity: 29 },
-  { name: "Belgium", quantity: 4 },
-];
+const Dashboard: FC<DashboardProps> = async ({ params: { projectId } }) => {
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-const browsersArr = [
-  { name: "Chrome", quantity: 17 },
-  { name: "Safari", quantity: 4 },
-  { name: "Opera", quantity: 2 },
-];
+  const project = await db.project.findUnique({ where: { name: projectId } });
 
-const OSArr = [
-  { name: "Linux", quantity: 69 },
-  { name: "Mac", quantity: 27 },
-  { name: "Windows", quantity: 4 },
-];
+  const analytic = await db.analytic.findMany({
+    where: {
+      projectId: project?.id,
+      createdAt: {
+        gte: sevenDaysAgo,
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
-const Dashboard: FC<DashboardProps> = ({ params: { projectId } }) => {
+  const countriesArr = mapHelperFunc(analytic, "country");
+  const browsersArr = mapHelperFunc(analytic, "browser");
+  const OSArr = mapHelperFunc(analytic, "OS");
+
   return (
     <>
       <ActivityGraph />
@@ -36,3 +40,23 @@ const Dashboard: FC<DashboardProps> = ({ params: { projectId } }) => {
 };
 
 export default Dashboard;
+
+const mapHelperFunc = (array: any[], objectName: string) => {
+  const cos = array.reduce((cnt, cur) => {
+    const rightIndex = cnt.findIndex((e: any) => e.name === cur[objectName]);
+    if (rightIndex !== -1) {
+      //@ts-ignore
+      cnt[rightIndex] = {
+        //@ts-ignore
+        ...cnt[rightIndex],
+        //@ts-ignore
+        quantity: cnt[rightIndex].quantity + 1,
+      };
+    } else {
+      //@ts-ignore
+      cnt.push({ name: cur[objectName], quantity: 1 });
+    }
+    return cnt;
+  }, []);
+  return cos;
+};

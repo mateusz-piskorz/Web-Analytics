@@ -24,23 +24,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// export async function GET(request: NextRequest) {
-//   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-//   try {
-//     const analytic = await db.analytic.findMany({
-//       where: {
-//         createdAt: {
-//           gte: sevenDaysAgo,
-//         },
-//       },
-//       orderBy: { createdAt: "desc" },
-//     });
-//     return NextResponse.json(analytic);
-//   } catch (error: any) {
-//     return NextResponse.json({ hello: error.message });
-//   }
-// }
-
 const throwError = (status: 400 | 404) => {
   return NextResponse.json(
     {
