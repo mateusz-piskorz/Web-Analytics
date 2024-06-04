@@ -2,16 +2,18 @@ import { FC } from "react";
 import { ListItem } from "./components/ListItem";
 import style from "./ActivityList.module.scss";
 import { ListContainer } from "@/src/components/ListContainer";
-const itemsArr = [
-  { name: "Poland", quantity: 29 },
-  { name: "Belgium", quantity: 4 },
-];
+import { Item } from "./types";
 
-export const ActivityList: FC = () => {
+type ActivityListProps = {
+  list: Item[];
+  title: string;
+};
+
+export const ActivityList: FC<ActivityListProps> = ({ list, title }) => {
   return (
-    <ListContainer title="Countries">
+    <ListContainer title={title}>
       <div className={style.List}>
-        {itemsArr.map((item, index) => (
+        {list.map((item, index) => (
           <ListItem key={index} {...item} />
         ))}
       </div>

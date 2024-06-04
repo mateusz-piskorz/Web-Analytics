@@ -1,12 +1,8 @@
 import { FC } from "react";
 import style from "./ListItem.module.scss";
+import { Item } from "../../types";
 
-type ListItemProps = {
-  name: string;
-  quantity: number;
-};
-
-export const ListItem: FC<ListItemProps> = ({ name, quantity }) => {
+export const ListItem: FC<Item> = ({ name, quantity }) => {
   return (
     <div className={style.ListItem}>
       <span>{name}</span>
