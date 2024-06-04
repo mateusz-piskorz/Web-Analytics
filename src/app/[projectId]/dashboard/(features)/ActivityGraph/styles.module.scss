@@ -20,10 +20,27 @@
 .Wrapper {
   border: 1px solid #252525;
   width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
 
   &_Header {
     height: 100px;
     width: 100%;
     background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+  }
+
+  &_Visitors {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &_Percentages {
+    color: white;
   }
 }
