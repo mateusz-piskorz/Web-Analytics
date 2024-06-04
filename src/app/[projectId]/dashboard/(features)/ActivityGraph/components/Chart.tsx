@@ -129,7 +129,6 @@ export const Chart: FC = () => {
               data={visitorsData}
               x={({ x }) => xScale(x)}
               y={({ y }) => yScale(y)}
-              strokeDasharray={7}
               strokeWidth={2}
               stroke="#0070F3"
             />
