@@ -7,6 +7,7 @@
   margin: auto;
 
   &_Header {
+    border-bottom: 1px solid var(--primary-border);
     height: 80px;
     display: flex;
     align-items: center;
@@ -14,5 +15,11 @@
     color: white;
     background-color: var(--primary);
     padding: 0 30px;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .Container {
+    max-width: 100%;
   }
 }

@@ -1,0 +1,17 @@
+.ListItem {
+  display: flex;
+  height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 7px;
+}
+
+@media screen and (min-width: 550px) {
+  .ListItem {
+    font-size: 1.2rem;
+    height: 45px;
+  }
+}
