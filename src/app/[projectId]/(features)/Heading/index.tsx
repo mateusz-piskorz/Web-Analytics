@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styles from "./Heading.module.scss";
-import { LiveIcon } from "./components/LiveIcon";
+import { LiveIcon } from "./assets/LiveIcon";
+import { Select } from "@/src/components/Select";
 
 export const Heading: FC = () => {
   return (
@@ -12,6 +13,7 @@ export const Heading: FC = () => {
           <LiveIcon />
         </a>
       </div>
+      <Select />
     </div>
   );
 };

@@ -1,0 +1,29 @@
+.SelectWrapper {
+  position: relative;
+
+  &_Select {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    width: 160px;
+    appearance: none;
+    border: 1px solid var(--primary-border);
+    border-radius: 7px;
+    cursor: pointer;
+  }
+
+  &_Img {
+    pointer-events: none;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .SelectWrapper {
+    margin-bottom: -15px;
+  }
+}
