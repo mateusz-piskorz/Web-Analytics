@@ -9,6 +9,7 @@ import { AreaClosed, Bar, LinePath } from "@visx/shape";
 import { localPoint } from "@visx/event/";
 import { useTooltip } from "@visx/tooltip";
 import { Tooltip } from "./Tooltip";
+import useMeasure from "react-use-measure";
 
 const visitorsData = [
   { x: new Date("2024-04-24"), y: 0 },
@@ -23,8 +24,9 @@ const visitorsData = [
 const xValues = visitorsData.map((e) => e.x);
 
 export const Chart: FC = () => {
-  const width = 500;
-  const height = 300;
+  const [ref, bounds] = useMeasure();
+  const width = bounds.width;
+  const height = 400;
   const {
     showTooltip,
     hideTooltip,
@@ -77,75 +79,81 @@ export const Chart: FC = () => {
     [showTooltip, yScale, xScale]
   );
   return (
-    <div>
-      <svg width={width} height={height}>
-        <rect x={0} y={0} width={width} height={height} />
+    <div ref={ref} style={{ position: "relative" }}>
+      {width === 0 ? (
+        <></>
+      ) : (
+        <>
+          {" "}
+          <svg width="100%" height={height}>
+            <rect x={0} y={0} width="100%" height={height} />
 
-        <GridRows
-          numTicks={2}
-          left={margin}
-          width={width - margin - margin}
-          height={height - margin}
-          scale={yScale}
-          stroke="#262626"
-          z={2}
-        />
+            <GridRows
+              numTicks={2}
+              left={margin}
+              width={width - margin - margin}
+              height={height - margin}
+              scale={yScale}
+              stroke="#262626"
+              z={2}
+            />
 
-        <AxisBottom
-          hideAxisLine
-          hideTicks
-          scale={xScale}
-          top={height - margin + 5}
-          tickLabelProps={{ fill: "white" }}
-          tickValues={xValues}
-        />
+            <AxisBottom
+              hideAxisLine
+              hideTicks
+              scale={xScale}
+              top={height - margin + 5}
+              tickLabelProps={{ fill: "white" }}
+              tickValues={xValues}
+            />
 
-        <AxisLeft
-          hideTicks
-          hideAxisLine
-          tickLabelProps={{ fill: "white" }}
-          left={margin}
-          scale={yScale}
-          numTicks={2}
-        />
+            <AxisLeft
+              hideTicks
+              hideAxisLine
+              tickLabelProps={{ fill: "white" }}
+              left={margin}
+              scale={yScale}
+              numTicks={2}
+            />
 
-        <AreaClosed
-          data={visitorsData}
-          x={({ x }) => xScale(x)}
-          y={({ y }) => yScale(y)}
-          yScale={yScale}
-          strokeWidth={2}
-          fill="rgba(0, 112, 243, 0.15)"
-        />
+            <AreaClosed
+              data={visitorsData}
+              x={({ x }) => xScale(x)}
+              y={({ y }) => yScale(y)}
+              yScale={yScale}
+              strokeWidth={2}
+              fill="rgba(0, 112, 243, 0.15)"
+            />
 
-        <LinePath
-          data={visitorsData}
-          x={({ x }) => xScale(x)}
-          y={({ y }) => yScale(y)}
-          strokeDasharray={7}
-          strokeWidth={2}
-          stroke="#0070F3"
-        />
+            <LinePath
+              data={visitorsData}
+              x={({ x }) => xScale(x)}
+              y={({ y }) => yScale(y)}
+              strokeDasharray={7}
+              strokeWidth={2}
+              stroke="#0070F3"
+            />
 
-        <Bar
-          x={margin}
-          y={margin}
-          width={width - margin}
-          height={height - margin}
-          fill="transparent"
-          onTouchStart={handleTooltip}
-          onTouchMove={handleTooltip}
-          onMouseMove={handleTooltip}
-          onMouseLeave={() => hideTooltip()}
-        />
-      </svg>
-
-      {tooltipData && (
-        <Tooltip
-          tooltipData={tooltipData}
-          tooltipLeft={tooltipLeft}
-          tooltipTop={tooltipTop}
-        />
+            <Bar
+              x={margin}
+              y={margin}
+              width={width - margin}
+              height={height - margin}
+              fill="transparent"
+              onTouchStart={handleTooltip}
+              onTouchMove={handleTooltip}
+              onMouseMove={handleTooltip}
+              onMouseLeave={() => hideTooltip()}
+            />
+          </svg>
+          {tooltipData && (
+            <Tooltip
+              tooltipData={tooltipData}
+              tooltipLeft={tooltipLeft}
+              tooltipTop={tooltipTop}
+            />
+          )}
+        </>
       )}
     </div>
   );
