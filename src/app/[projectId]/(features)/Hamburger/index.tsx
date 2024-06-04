@@ -19,36 +19,36 @@ export const Hamburger: FC<HamburgerProps> = ({ onClick }) => {
           id="mid"
           d="M27 19L32 19"
           stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
         <path
           id="top"
           d="M2 1L8 1"
           stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
         <path
           id="bottom"
           d="M1.76715 19H18.7731"
           stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
         <path
           id="topSmall"
           d="M32 1H14.994"
           stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
         <path
           id="bottomSmall"
           d="M1.76715 10H7.43581H32"
           stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
       </svg>
     </button>

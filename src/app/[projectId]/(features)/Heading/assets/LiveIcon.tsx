@@ -10,8 +10,8 @@ export const LiveIcon: FC = () => {
     >
       <path
         strokeWidth={0}
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M6.3 3.5C6.3 3.22386 6.07614 3 5.8 3H1V3C0.447715 3 0 3.44772 0 4V4V11V11C0 11.5523 0.447715 12 1 12V12H8V12C8.55228 12 9 11.5523 9 11V11V6.2C9 5.92386 8.77614 5.7 8.5 5.7V5.7C8.22386 5.7 8 5.92386 8 6.2V10C8 10.5523 7.55228 11 7 11H2C1.44772 11 1 10.5523 1 10V5C1 4.44772 1.44771 4 2 4H5.8C6.07614 4 6.3 3.77614 6.3 3.5V3.5Z"
       />
       <path
