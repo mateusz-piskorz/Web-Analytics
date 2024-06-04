@@ -102,14 +102,14 @@ export const Chart: FC = () => {
               hideTicks
               scale={xScale}
               top={height - margin + 5}
-              tickLabelProps={{ fill: "white" }}
+              tickLabelProps={{ fill: "rgba(255,255,255,.6)" }}
               tickValues={xValues}
             />
 
             <AxisLeft
               hideTicks
               hideAxisLine
-              tickLabelProps={{ fill: "white" }}
+              tickLabelProps={{ fill: "rgba(255,255,255,.6)" }}
               tickFormat={(tick) => tick.toString()}
               left={margin}
               scale={yScale}
