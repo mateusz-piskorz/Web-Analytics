@@ -111,6 +111,7 @@ export const Chart: FC = () => {
               hideTicks
               hideAxisLine
               tickLabelProps={{ fill: "white" }}
+              tickFormat={(tick) => tick.toString()}
               left={margin}
               scale={yScale}
               numTicks={2}
