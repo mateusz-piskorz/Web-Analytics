@@ -5,14 +5,20 @@
   &_RightSide {
     display: flex;
     flex-direction: column;
+    padding: 20px;
   }
 }
 
 @media screen and (min-width: 768px) {
   .Wrapper {
     flex-direction: row;
+    width: 100%;
     &_RightSide {
+      flex: 1;
       padding: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
     }
   }
 }
@@ -21,6 +27,7 @@
   .Wrapper {
     &_RightSide {
       padding-left: 80px;
+      padding-right: 80px;
     }
   }
 }

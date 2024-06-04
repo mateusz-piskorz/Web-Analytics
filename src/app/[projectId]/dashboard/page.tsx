@@ -1,8 +1,9 @@
 import React, { FC } from "react";
+import { ActivityGraph } from "./(features)/ActivityGraph";
+type DashboardProps = { params: { projectId: string } };
 
-const Dashboard: FC<{ params: { projectId: string } }> = ({ params }) => {
-  console.log(params.projectId);
-  return <h1 style={{ color: "red" }}>Dashboard</h1>;
+const Dashboard: FC<DashboardProps> = ({ params: { projectId } }) => {
+  return <ActivityGraph />;
 };
 
 export default Dashboard;

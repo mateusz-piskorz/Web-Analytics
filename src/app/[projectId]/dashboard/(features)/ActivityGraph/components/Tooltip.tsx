@@ -1,6 +1,6 @@
 import { TooltipWithBounds } from "@visx/tooltip";
 import React, { FC } from "react";
-import style from "../styles.module.css";
+import style from "../styles.module.scss";
 
 type TooltipProps = {
   tooltipData: any;

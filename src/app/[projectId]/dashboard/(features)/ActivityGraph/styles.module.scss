@@ -6,6 +6,7 @@
   left: 0px;
   bottom: 47px;
 }
+
 .circle {
   width: 8px;
   height: 8px;
@@ -14,4 +15,15 @@
   position: absolute;
   transform-origin: center;
   transform: translate(-3px, -4px);
+}
+
+.Wrapper {
+  border: 1px solid #252525;
+  width: 100%;
+
+  &_Header {
+    height: 100px;
+    width: 100%;
+    background-color: var(--primary);
+  }
 }
