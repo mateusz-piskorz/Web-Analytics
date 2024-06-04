@@ -28,8 +28,11 @@
     font-size: 1.2rem;
     border-radius: 5px;
     padding: 7px 20px;
-
     color: black;
+    stroke: black;
+    &:hover {
+      background-color: #c7c7c7;
+    }
   }
 
   &_Link__active {
@@ -43,8 +46,9 @@
 
 @media screen and (min-width: 768px) {
   .Nav {
+    height: 100%;
+    padding-top: 0;
     position: relative;
-
     top: unset;
     left: unset;
     background-color: black;
@@ -56,6 +60,29 @@
 
     &_Link {
       color: white;
+      padding: 12px;
+      & > span {
+        display: none;
+      }
+      &:hover {
+        background-color: var(--primary);
+      }
+    }
+
+    &_Link__active {
+      background-color: var(--primary);
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .Nav {
+    &_Link {
+      color: white;
+      padding: 12px;
+      & > span {
+        display: block;
+      }
     }
   }
 }

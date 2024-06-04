@@ -1,15 +1,26 @@
 .Wrapper {
   display: flex;
   flex-direction: column;
-}
 
-.WrapperRightSide {
-  display: flex;
-  flex-direction: column;
+  &_RightSide {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media screen and (min-width: 768px) {
   .Wrapper {
     flex-direction: row;
+    &_RightSide {
+      padding: 50px;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .Wrapper {
+    &_RightSide {
+      padding-left: 80px;
+    }
   }
 }

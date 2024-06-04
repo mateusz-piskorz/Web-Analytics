@@ -11,5 +11,12 @@
     width: 120px;
     height: 100vh;
     border-right: 1px solid white;
+    padding-top: 50px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .Header {
+    width: 250px;
   }
 }

@@ -1,6 +1,7 @@
 :root {
   --gray-text: rgba(255, 255, 255, 0.6);
   --blue-accent: #0070f3;
+  --primary: #111111;
 }
 
 * {
