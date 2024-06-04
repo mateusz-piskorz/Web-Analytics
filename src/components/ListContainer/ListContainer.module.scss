@@ -2,8 +2,8 @@
   border: 1px solid var(--primary-border);
   border-radius: 7px;
   height: 300px;
-  width: 100%;
-  max-width: 90%;
+  flex: 1;
+  min-width: 400px;
   margin: auto;
 
   &_Header {
@@ -15,11 +15,5 @@
     color: white;
     background-color: var(--primary);
     padding: 0 30px;
-  }
-}
-
-@media screen and (min-width: 550px) {
-  .Container {
-    max-width: 100%;
   }
 }

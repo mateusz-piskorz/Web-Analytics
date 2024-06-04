@@ -1,0 +1,15 @@
+.ActivityListContainer {
+  max-width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 35px;
+}
+
+@media screen and (min-width: 550px) {
+  .ActivityListContainer {
+    max-width: 100%;
+  }
+}
