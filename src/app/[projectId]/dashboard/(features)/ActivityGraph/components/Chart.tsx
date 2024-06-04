@@ -79,7 +79,7 @@ export const Chart: FC = () => {
     [showTooltip, yScale, xScale]
   );
   return (
-    <div ref={ref} style={{ height: "100%" }}>
+    <div ref={ref} style={{ height: "100%", position: "relative" }}>
       {width === 0 || height === 0 ? (
         <></>
       ) : (
