@@ -13,7 +13,9 @@ export const ActivityGraph = () => {
         </div>
         <span className={styles.Wrapper_Percentages}>+3.94%</span>
       </div>
-      <Chart />
+      <div className={styles.Wrapper_ChartContainer}>
+        <Chart />
+      </div>
     </div>
   );
 };

@@ -1,1 +1,1 @@
-export const margin = 50;
+export const margin = 30;

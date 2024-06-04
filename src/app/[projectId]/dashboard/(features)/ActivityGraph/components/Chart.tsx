@@ -26,7 +26,7 @@ const xValues = visitorsData.map((e) => e.x);
 export const Chart: FC = () => {
   const [ref, bounds] = useMeasure();
   const width = bounds.width;
-  const height = 400;
+  const height = bounds.height;
   const {
     showTooltip,
     hideTooltip,
@@ -79,14 +79,13 @@ export const Chart: FC = () => {
     [showTooltip, yScale, xScale]
   );
   return (
-    <div ref={ref} style={{ position: "relative" }}>
-      {width === 0 ? (
+    <div ref={ref} style={{ height: "100%" }}>
+      {width === 0 || height === 0 ? (
         <></>
       ) : (
         <>
-          {" "}
-          <svg width="100%" height={height}>
-            <rect x={0} y={0} width="100%" height={height} />
+          <svg width="100%" height="100%">
+            <rect x={0} y={0} width="100%" height="100%" />
 
             <GridRows
               numTicks={2}

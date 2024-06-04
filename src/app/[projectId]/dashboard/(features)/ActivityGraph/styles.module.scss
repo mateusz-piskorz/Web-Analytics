@@ -52,11 +52,28 @@
     color: var(--green-accent);
     font-size: 1.5rem;
   }
+
+  &_ChartContainer {
+    height: 300px;
+  }
 }
 
 @media screen and (min-width: 550px) {
   .Wrapper {
     border: 1px solid var(--primary-border);
     border-radius: 15px;
+
+    &_ChartContainer {
+      padding-bottom: 10px;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .Wrapper {
+    &_ChartContainer {
+      height: 400px;
+      padding: 20px;
+    }
   }
 }
