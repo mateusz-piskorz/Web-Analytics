@@ -6,10 +6,10 @@ import { ClockType, GraphData } from "./types";
 
 type ActivityGraphProps = {
   data: GraphData;
-  ClockType: ClockType;
+  clockType: ClockType;
 };
 
-export const ActivityGraph: FC<ActivityGraphProps> = ({ data, ClockType }) => {
+export const ActivityGraph: FC<ActivityGraphProps> = ({ data, clockType }) => {
   return (
     <div className={styles.Wrapper}>
       <div className={styles.Wrapper_Header}>
@@ -20,7 +20,7 @@ export const ActivityGraph: FC<ActivityGraphProps> = ({ data, ClockType }) => {
         <span className={styles.Wrapper_Percentages}>+3.94%</span>
       </div>
       <div className={styles.Wrapper_ChartContainer}>
-        <Chart data={data} ClockType={ClockType} />
+        <Chart data={data} clockType={clockType} />
       </div>
     </div>
   );

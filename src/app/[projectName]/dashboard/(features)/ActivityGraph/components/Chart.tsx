@@ -15,14 +15,12 @@ import { oneDay, oneHour } from "../../../constants";
 
 type ChartProps = {
   data: GraphData;
-  ClockType: ClockType;
+  clockType: ClockType;
 };
 
-export const Chart: FC<ChartProps> = ({ data, ClockType }) => {
-  const xValues = useCallback(() => data.map((e) => e.x), [data])();
-  const d = xValues.filter((element, index) => index % 2 === 0);
-  const d2 = d.filter((element, index) => index % 2 === 0);
-  console.log(d2.filter((element, index) => index % 2 === 0));
+export const Chart: FC<ChartProps> = ({ data, clockType }) => {
+  const xValues = useCallback(() => data.map((e) => e.x), [data, clockType])();
+
   const [ref, bounds] = useMeasure();
   const width = bounds.width;
   const height = bounds.height;
@@ -40,7 +38,7 @@ export const Chart: FC<ChartProps> = ({ data, ClockType }) => {
         range: [margin, width - margin],
         domain: getMinMax(xValues),
       }),
-    [width]
+    [width, xValues]
   );
 
   const yScale = useMemo(
@@ -49,7 +47,7 @@ export const Chart: FC<ChartProps> = ({ data, ClockType }) => {
         range: [height - margin, margin],
         domain: [0, max(data, (d: any) => d.y) || 0],
       }),
-    [height]
+    [height, data]
   );
 
   const handleTooltip = useCallback(
@@ -59,7 +57,7 @@ export const Chart: FC<ChartProps> = ({ data, ClockType }) => {
       const { x } = localPoint(event) || { x: 0 };
       const x0 = xScale.invert(x);
       const time = x0.getTime();
-      const timeXOne = ClockType == "days" ? oneDay : oneHour;
+      const timeXOne = clockType == "days" ? oneDay : oneHour;
       const min = time - timeXOne / 2;
       const max = time + timeXOne / 2 + 1;
       const d7 = data.find((e) => {
@@ -103,7 +101,7 @@ export const Chart: FC<ChartProps> = ({ data, ClockType }) => {
               top={height - margin + 5}
               tickLabelProps={{ fill: "rgba(255,255,255,.6)" }}
               tickFormat={(tick) => {
-                if (ClockType === "hours") {
+                if (clockType === "hours") {
                   const [hour, min] = (tick as Date)
                     .toLocaleTimeString()
                     .split(":");

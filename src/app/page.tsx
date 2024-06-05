@@ -10,7 +10,7 @@ const navList = [
   },
   { name: "Multi Step Form", href: "google-drive-clone/dashboard" },
 ];
-console.log(styles);
+
 export default function Home() {
   return (
     <main>

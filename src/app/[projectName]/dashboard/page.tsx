@@ -3,39 +3,45 @@ import { ActivityGraph } from "./(features)/ActivityGraph";
 import { ActivityList } from "./(features)/ActivityList";
 import style from "./styles.module.scss";
 import { PrismaClient } from "@prisma/client";
-import { generateArr, oneDay, oneHour } from "./constants";
+import { Period, generateArr, oneDay, oneHour, PERIODS_AGO } from "./constants";
 
 const db = new PrismaClient();
 
-type DashboardProps = { params: { projectName: string } };
+type DashboardProps = {
+  params: { projectName: string };
+  searchParams: { analyticPeriod: string | undefined };
+};
 
-const Dashboard: FC<DashboardProps> = async ({ params: { projectName } }) => {
-  const hoursAgo24 = new Date(Date.now() - 86400000);
-  const daysAgo7 = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  const daysAgo30 = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+const Dashboard: FC<DashboardProps> = async ({
+  params,
+  searchParams: { analyticPeriod = "7" },
+}) => {
+  if (!PERIODS_AGO[analyticPeriod as Period]) analyticPeriod = "7";
+  const period: Period = analyticPeriod as Period;
+  const isHour = period === "24";
 
-  const project = await db.project.findUnique({ where: { name: projectName } });
+  const project = await db.project.findUnique({
+    where: { name: params.projectName },
+  });
 
   const analytic = await db.analytic.findMany({
     where: {
       projectId: project?.id,
       createdAt: {
-        gte: daysAgo7,
+        gte: PERIODS_AGO[period],
       },
     },
     orderBy: { createdAt: "desc" },
   });
-  console.log(analytic);
 
   const countriesArr = mapHelperFunc(analytic, "country");
   const browsersArr = mapHelperFunc(analytic, "browser");
   const OSArr = mapHelperFunc(analytic, "OS");
 
-  const magicNumber = 7;
-  const MyActivityArray = generateArr(magicNumber);
+  const MyActivityArray = generateArr(period);
   const newVisitors = MyActivityArray.map((item) => {
     let visitors = 0;
-    const divider = magicNumber === 24 ? oneHour : oneDay;
+    const divider = isHour ? oneHour : oneDay;
     const { x, y } = item;
     const time = x.getTime();
     const min = time - divider / 2;
@@ -51,10 +57,7 @@ const Dashboard: FC<DashboardProps> = async ({ params: { projectName } }) => {
 
   return (
     <>
-      <ActivityGraph
-        data={newVisitors}
-        ClockType={magicNumber === 24 ? "hours" : "days"}
-      />
+      <ActivityGraph data={newVisitors} clockType={isHour ? "hours" : "days"} />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countriesArr} />
         <ActivityList title="Browsers" list={browsersArr} />
