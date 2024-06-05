@@ -7,12 +7,13 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 export const Select: FC = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace, refresh } = useRouter();
+  const { replace, refresh, prefetch } = useRouter();
 
   const handleChange = (selectedPeriod: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("analyticPeriod", selectedPeriod);
     replace(`${pathname}?${params.toString()}`);
+    // prefetch(`${pathname}?${params.toString()}`);
   };
 
   return (
