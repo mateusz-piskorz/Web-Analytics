@@ -3,10 +3,15 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
-export async function POST(request: NextRequest) {
-  const { projectName, country, OS, browser } = await request.json();
-
-  if (!projectName) return throwError(400);
+export async function POST(
+  request: NextRequest,
+  { params: { projectName } }: { params: { projectName: string } }
+) {
+  const {
+    country = "unknown",
+    OS = "unknown",
+    browser = "unknown",
+  } = await request.json();
 
   try {
     const project = await db.project.findUnique({
@@ -24,13 +29,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const throwError = (status: 400 | 404) => {
+const throwError = (status: 404) => {
   return NextResponse.json(
     {
-      message:
-        status === 400
-          ? "projectName must be a string"
-          : "No project found for the given project name",
+      message: "No project found for the given project name",
     },
     { status: status }
   );

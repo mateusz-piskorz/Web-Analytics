@@ -3,8 +3,9 @@
   border-radius: 7px;
   height: 300px;
   flex: 1;
-  min-width: 400px;
+  min-width: 410px;
   margin: auto;
+  overflow: hidden;
 
   &_Header {
     border-bottom: 1px solid var(--primary-border);

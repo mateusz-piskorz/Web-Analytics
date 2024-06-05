@@ -12,6 +12,16 @@ import { Tooltip } from "./Tooltip";
 import useMeasure from "react-use-measure";
 
 const visitorsData = [
+  { x: new Date("2024-04-30 12:00:00 GMT"), y: 0 },
+  { x: new Date("2024-04-30 13:00:00 GMT"), y: 0 },
+  { x: new Date("2024-04-30 14:00:00 GMT"), y: 5 },
+  { x: new Date("2024-04-30 15:00:00 GMT"), y: 0 },
+  { x: new Date("2024-04-30 16:00:00 GMT"), y: 2 },
+  { x: new Date("2024-04-30 17:00:00 GMT"), y: 5 },
+  { x: new Date("2024-04-30 18:00:00 GMT"), y: 2 },
+];
+
+const visitorsData2 = [
   { x: new Date("2024-04-24"), y: 0 },
   { x: new Date("2024-04-25"), y: 0 },
   { x: new Date("2024-04-26"), y: 5 },

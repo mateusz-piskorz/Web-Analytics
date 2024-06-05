@@ -6,14 +6,14 @@ import styles from "./layout.module.scss";
 import { Heading } from "./(features)/Heading";
 const ProjectsLayout: FC<{
   children: React.ReactNode;
-  params: { projectId: string };
-}> = ({ children, params: { projectId } }) => {
+  params: { projectName: string };
+}> = ({ children, params: { projectName } }) => {
   return (
     <div className={styles.Wrapper}>
-      <Header projectId={projectId} />
+      <Header projectName={projectName} />
 
       <div className={styles.Wrapper_RightSide}>
-        <Breadcrumb projectName={projectId} onlyOnDesktop />
+        <Breadcrumb projectName={projectName} onlyOnDesktop />
         <Heading />
         {children}
       </div>

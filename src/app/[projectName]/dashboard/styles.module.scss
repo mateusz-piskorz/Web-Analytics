@@ -10,6 +10,13 @@
 
 @media screen and (min-width: 550px) {
   .ActivityListContainer {
+    margin-top: 0;
     max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .ActivityListContainer {
+    gap: 40px;
   }
 }

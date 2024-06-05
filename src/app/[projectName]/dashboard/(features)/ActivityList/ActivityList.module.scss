@@ -1,0 +1,14 @@
+.List {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  gap: 18px;
+  margin: auto;
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

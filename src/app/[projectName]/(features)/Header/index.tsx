@@ -6,19 +6,19 @@ import { Navigation } from "../Navigation";
 import styles from "./Header.module.scss";
 
 type HeaderProps = {
-  projectId: string;
+  projectName: string;
 };
 
-export const Header: FC<HeaderProps> = ({ projectId }) => {
+export const Header: FC<HeaderProps> = ({ projectName }) => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
     <>
       <header className={styles.Header}>
-        <Breadcrumb projectName={projectId} />
+        <Breadcrumb projectName={projectName} />
         <Hamburger onClick={() => setIsNavOpen((prev) => !prev)} />
         <Navigation
           setNavClose={() => setIsNavOpen(false)}
-          projectName={projectId}
+          projectName={projectName}
           isNavOpen={isNavOpen}
         />
       </header>
