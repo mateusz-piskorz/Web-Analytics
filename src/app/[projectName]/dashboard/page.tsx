@@ -6,13 +6,16 @@ type DashboardProps = {
   searchParams: { analyticPeriod: string | undefined };
 };
 
-const DashboardPage: FC<DashboardProps> = async ({ params, searchParams }) => {
+const DashboardPage: FC<DashboardProps> = async ({
+  params,
+  searchParams: { analyticPeriod = "7" },
+}) => {
   return (
     <Suspense
-      key={searchParams.analyticPeriod}
+      key={analyticPeriod}
       fallback={<h1 style={{ color: "white" }}>Loading...</h1>}
     >
-      <Dashboard params={params} searchParams={searchParams} />
+      <Dashboard params={params} analyticPeriod={analyticPeriod} />
     </Suspense>
   );
 };

@@ -7,13 +7,12 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 export const Select: FC = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace, refresh, prefetch } = useRouter();
+  const { replace } = useRouter();
 
   const handleChange = (selectedPeriod: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("analyticPeriod", selectedPeriod);
     replace(`${pathname}?${params.toString()}`);
-    // prefetch(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -21,7 +20,7 @@ export const Select: FC = () => {
       <select
         className={style.SelectWrapper_Select}
         onChange={(e) => handleChange(e.target.value)}
-        defaultValue={searchParams.get("analyticPeriod")?.toString() || "7d"}
+        defaultValue={searchParams.get("analyticPeriod")?.toString() || "7"}
       >
         <option value="24">Last 24 Hours</option>
         <option value="7">Last 7 Days</option>

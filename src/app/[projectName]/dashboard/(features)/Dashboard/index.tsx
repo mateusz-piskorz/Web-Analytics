@@ -16,12 +16,12 @@ const db = new PrismaClient();
 
 type DashboardProps = {
   params: { projectName: string };
-  searchParams: { analyticPeriod: string | undefined };
+  analyticPeriod: string;
 };
 
 export const Dashboard: FC<DashboardProps> = async ({
   params,
-  searchParams: { analyticPeriod = "7" },
+  analyticPeriod,
 }) => {
   if (!PERIODS_AGO[analyticPeriod as Period]) analyticPeriod = "7";
   const period: Period = analyticPeriod as Period;
@@ -42,8 +42,6 @@ export const Dashboard: FC<DashboardProps> = async ({
     },
     orderBy: { createdAt: "desc" },
   });
-
-  console.log(analytic);
 
   const countriesArr = mapHelperFunc(analytic, "country");
   const browsersArr = mapHelperFunc(analytic, "browser");
