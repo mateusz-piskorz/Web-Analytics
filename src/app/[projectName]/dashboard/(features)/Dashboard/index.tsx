@@ -31,15 +31,19 @@ export const Dashboard: FC<DashboardProps> = async ({
     where: { name: params.projectName },
   });
 
+  if (!project) throw new Error("project not found");
+
   const analytic = await db.analytic.findMany({
     where: {
-      projectId: project?.id,
+      projectId: project.id,
       createdAt: {
         gte: PERIODS_AGO[period],
       },
     },
     orderBy: { createdAt: "desc" },
   });
+
+  console.log(analytic);
 
   const countriesArr = mapHelperFunc(analytic, "country");
   const browsersArr = mapHelperFunc(analytic, "browser");
