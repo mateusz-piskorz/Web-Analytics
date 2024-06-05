@@ -1,9 +1,15 @@
 "use client";
-import React from "react";
+import React, { FC } from "react";
 import { Chart } from "./components/Chart";
 import styles from "./styles.module.scss";
+import { ClockType, GraphData } from "./types";
 
-export const ActivityGraph = () => {
+type ActivityGraphProps = {
+  data: GraphData;
+  ClockType: ClockType;
+};
+
+export const ActivityGraph: FC<ActivityGraphProps> = ({ data, ClockType }) => {
   return (
     <div className={styles.Wrapper}>
       <div className={styles.Wrapper_Header}>
@@ -14,7 +20,7 @@ export const ActivityGraph = () => {
         <span className={styles.Wrapper_Percentages}>+3.94%</span>
       </div>
       <div className={styles.Wrapper_ChartContainer}>
-        <Chart />
+        <Chart data={data} ClockType={ClockType} />
       </div>
     </div>
   );

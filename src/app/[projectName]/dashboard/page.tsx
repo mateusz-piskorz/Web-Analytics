@@ -3,7 +3,7 @@ import { ActivityGraph } from "./(features)/ActivityGraph";
 import { ActivityList } from "./(features)/ActivityList";
 import style from "./styles.module.scss";
 import { PrismaClient } from "@prisma/client";
-import { generateArr } from "./constants";
+import { generateArr, oneDay, oneHour } from "./constants";
 
 const db = new PrismaClient();
 
@@ -30,10 +30,31 @@ const Dashboard: FC<DashboardProps> = async ({ params: { projectName } }) => {
   const countriesArr = mapHelperFunc(analytic, "country");
   const browsersArr = mapHelperFunc(analytic, "browser");
   const OSArr = mapHelperFunc(analytic, "OS");
-  console.log(generateArr(7));
+
+  const magicNumber = 7;
+  const MyActivityArray = generateArr(magicNumber);
+  const newVisitors = MyActivityArray.map((item) => {
+    let visitors = 0;
+    const divider = magicNumber === 24 ? oneHour : oneDay;
+    const { x, y } = item;
+    const time = x.getTime();
+    const min = time - divider / 2;
+    const max = time + divider / 2 + 1;
+    analytic.forEach((analyticItem) => {
+      const analyticTime = analyticItem.createdAt.getTime();
+      if (analyticTime > min && analyticTime < max) {
+        visitors++;
+      }
+    });
+    return { x, y: visitors };
+  });
+
   return (
     <>
-      <ActivityGraph />
+      <ActivityGraph
+        data={newVisitors}
+        ClockType={magicNumber === 24 ? "hours" : "days"}
+      />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countriesArr} />
         <ActivityList title="Browsers" list={browsersArr} />

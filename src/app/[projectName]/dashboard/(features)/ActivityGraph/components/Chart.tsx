@@ -1,5 +1,5 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
-import { scaleLinear, scaleUtc } from "@visx/scale";
+import { scaleLinear, scaleTime } from "@visx/scale";
 import { GridRows } from "@visx/grid";
 import { max, bisector } from "@visx/vendor/d3-array";
 import React, { FC, useCallback, useMemo } from "react";
@@ -10,30 +10,19 @@ import { localPoint } from "@visx/event/";
 import { useTooltip } from "@visx/tooltip";
 import { Tooltip } from "./Tooltip";
 import useMeasure from "react-use-measure";
+import { ClockType, GraphData } from "../types";
+import { oneDay, oneHour } from "../../../constants";
 
-const visitorsData = [
-  { x: new Date("2024-04-30 12:00:00 GMT"), y: 0 },
-  { x: new Date("2024-04-30 13:00:00 GMT"), y: 0 },
-  { x: new Date("2024-04-30 14:00:00 GMT"), y: 5 },
-  { x: new Date("2024-04-30 15:00:00 GMT"), y: 0 },
-  { x: new Date("2024-04-30 16:00:00 GMT"), y: 2 },
-  { x: new Date("2024-04-30 17:00:00 GMT"), y: 5 },
-  { x: new Date("2024-04-30 18:00:00 GMT"), y: 2 },
-];
+type ChartProps = {
+  data: GraphData;
+  ClockType: ClockType;
+};
 
-const visitorsData2 = [
-  { x: new Date("2024-04-24"), y: 0 },
-  { x: new Date("2024-04-25"), y: 0 },
-  { x: new Date("2024-04-26"), y: 5 },
-  { x: new Date("2024-04-27"), y: 0 },
-  { x: new Date("2024-04-28"), y: 2 },
-  { x: new Date("2024-04-29"), y: 5 },
-  { x: new Date("2024-04-30"), y: 2 },
-];
-
-const xValues = visitorsData.map((e) => e.x);
-
-export const Chart: FC = () => {
+export const Chart: FC<ChartProps> = ({ data, ClockType }) => {
+  const xValues = useCallback(() => data.map((e) => e.x), [data])();
+  const d = xValues.filter((element, index) => index % 2 === 0);
+  const d2 = d.filter((element, index) => index % 2 === 0);
+  console.log(d2.filter((element, index) => index % 2 === 0));
   const [ref, bounds] = useMeasure();
   const width = bounds.width;
   const height = bounds.height;
@@ -47,7 +36,7 @@ export const Chart: FC = () => {
 
   const xScale = useMemo(
     () =>
-      scaleUtc({
+      scaleTime({
         range: [margin, width - margin],
         domain: getMinMax(xValues),
       }),
@@ -58,8 +47,7 @@ export const Chart: FC = () => {
     () =>
       scaleLinear({
         range: [height - margin, margin],
-        domain: [0, max(visitorsData, (d: any) => d.y) || 0],
-        nice: true,
+        domain: [0, max(data, (d: any) => d.y) || 0],
       }),
     [height]
   );
@@ -70,24 +58,26 @@ export const Chart: FC = () => {
     ) => {
       const { x } = localPoint(event) || { x: 0 };
       const x0 = xScale.invert(x);
-
-      const index = bisector((d: any) => d.x).left(visitorsData, x0, 1);
-      const d0 = visitorsData[index - 1];
-      const d1 = visitorsData[index];
-      let d = d0;
-
-      if (d1 && d.x) {
-        d = +x0 - +d0.x > +d1.x - +x0 ? d1 : d0;
-      }
+      const time = x0.getTime();
+      const timeXOne = ClockType == "days" ? oneDay : oneHour;
+      const min = time - timeXOne / 2;
+      const max = time + timeXOne / 2 + 1;
+      const d7 = data.find((e) => {
+        const xTime = e.x.getTime();
+        if (xTime > min && xTime < max) {
+          return e;
+        }
+      });
 
       showTooltip({
-        tooltipData: d,
-        tooltipLeft: xScale(d.x),
-        tooltipTop: yScale(d.y),
+        tooltipData: d7,
+        tooltipLeft: xScale(d7!.x),
+        tooltipTop: yScale(d7!.y),
       });
     },
     [showTooltip, yScale, xScale]
   );
+
   return (
     <div ref={ref} style={{ height: "100%", position: "relative" }}>
       {width === 0 || height === 0 ? (
@@ -104,7 +94,6 @@ export const Chart: FC = () => {
               height={height - margin}
               scale={yScale}
               stroke="#262626"
-              z={2}
             />
 
             <AxisBottom
@@ -113,7 +102,17 @@ export const Chart: FC = () => {
               scale={xScale}
               top={height - margin + 5}
               tickLabelProps={{ fill: "rgba(255,255,255,.6)" }}
-              tickValues={xValues}
+              tickFormat={(tick) => {
+                if (ClockType === "hours") {
+                  const [hour, min] = (tick as Date)
+                    .toLocaleTimeString()
+                    .split(":");
+                  return `${hour}:${min}`;
+                } else {
+                  return (tick as Date).toLocaleDateString();
+                }
+              }}
+              numTicks={width < 535 ? 4 : 7}
             />
 
             <AxisLeft
@@ -127,7 +126,7 @@ export const Chart: FC = () => {
             />
 
             <AreaClosed
-              data={visitorsData}
+              data={data}
               x={({ x }) => xScale(x)}
               y={({ y }) => yScale(y)}
               yScale={yScale}
@@ -136,7 +135,7 @@ export const Chart: FC = () => {
             />
 
             <LinePath
-              data={visitorsData}
+              data={data}
               x={({ x }) => xScale(x)}
               y={({ y }) => yScale(y)}
               strokeWidth={2}
