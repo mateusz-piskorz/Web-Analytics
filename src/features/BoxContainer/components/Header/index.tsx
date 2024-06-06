@@ -5,7 +5,7 @@ import Image from "next/image";
 export type HeaderProps = {
   title: string;
   visitorsCase?: {
-    value: number;
+    value: number | string;
     percentage: string;
   };
 };

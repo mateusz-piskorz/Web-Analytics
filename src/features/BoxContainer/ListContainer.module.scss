@@ -6,11 +6,20 @@
   min-width: 100%;
   margin: auto;
   overflow: hidden;
+
+  &__increaseHeight {
+    height: 382px;
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .Container {
+    width: 100%;
     min-width: 410px;
     margin: unset;
+
+    &__increaseHeight {
+      height: 482px;
+    }
   }
 }

@@ -6,13 +6,14 @@ export type { Item };
 
 type ActivityListProps = {
   list: Item[];
+  lightBg?: boolean;
 };
 
-export const ItemList: FC<ActivityListProps> = ({ list }) => {
+export const ItemList: FC<ActivityListProps> = ({ list, lightBg }) => {
   return (
     <div className={style.List}>
       {list.map((item, index) => (
-        <ListItem key={index} {...item} />
+        <ListItem key={index} lightBg={lightBg} {...item} />
       ))}
     </div>
   );

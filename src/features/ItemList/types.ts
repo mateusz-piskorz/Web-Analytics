@@ -1,4 +1,4 @@
 export type Item = {
   name: string;
-  quantity: number;
+  quantity: number | string;
 };

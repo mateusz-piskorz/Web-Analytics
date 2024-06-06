@@ -1,4 +1,4 @@
-import React, { FC, Suspense } from "react";
+import React, { FC } from "react";
 import { ActivityGraph } from "../../(features)/ActivityGraph";
 import { ActivityList } from "../../(features)/ActivityList";
 import { PrismaClient } from "@prisma/client";
@@ -10,7 +10,7 @@ import {
   PERIODS_AGO,
 } from "../../constants";
 import { mapHelperFunc } from "./utils";
-import style from "../../styles.module.scss";
+import style from "./styles.module.scss";
 
 const db = new PrismaClient();
 
@@ -65,13 +65,13 @@ export const Dashboard: FC<DashboardProps> = async ({
   });
 
   return (
-    <Suspense fallback={<h1 style={{ color: "white" }}>Loading...</h1>}>
+    <>
       <ActivityGraph data={newVisitors} clockType={isHour ? "hours" : "days"} />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countriesArr} />
         <ActivityList title="Browsers" list={browsersArr} />
         <ActivityList title="Operating Systems" list={OSArr} />
       </div>
-    </Suspense>
+    </>
   );
 };
