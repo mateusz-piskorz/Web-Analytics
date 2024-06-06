@@ -1,9 +1,9 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { GridRows } from "@visx/grid";
-import { max, bisector } from "@visx/vendor/d3-array";
+import { max } from "@visx/vendor/d3-array";
 import React, { FC, useCallback, useMemo } from "react";
-import { getMinMax } from "../utils";
+import { getMinMax, parseDate } from "../utils";
 import { margin } from "../constants";
 import { AreaClosed, Bar, LinePath } from "@visx/shape";
 import { localPoint } from "@visx/event/";
@@ -68,7 +68,10 @@ export const Chart: FC<ChartProps> = ({ data, clockType }) => {
       });
 
       showTooltip({
-        tooltipData: d7,
+        tooltipData: {
+          value: d7?.y || 0,
+          date: parseDate(clockType, d7?.x || new Date()),
+        },
         tooltipLeft: xScale(d7?.x || 0),
         tooltipTop: yScale(d7?.y || 0),
       });
@@ -100,16 +103,7 @@ export const Chart: FC<ChartProps> = ({ data, clockType }) => {
               scale={xScale}
               top={height - margin + 5}
               tickLabelProps={{ fill: "rgba(255,255,255,.6)" }}
-              tickFormat={(tick) => {
-                if (clockType === "hours") {
-                  const [hour, min] = (tick as Date)
-                    .toLocaleTimeString()
-                    .split(":");
-                  return `${hour}:${min}`;
-                } else {
-                  return (tick as Date).toLocaleDateString();
-                }
-              }}
+              tickFormat={(tick) => parseDate(clockType, tick as Date)}
               numTicks={width < 535 ? 4 : 7}
             />
 
