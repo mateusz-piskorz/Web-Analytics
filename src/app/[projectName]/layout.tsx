@@ -14,7 +14,7 @@ const ProjectsLayout: FC<{
 
       <div className={styles.Wrapper_RightSide}>
         <Breadcrumb projectName={projectName} onlyOnDesktop />
-        <Heading />
+        <Heading projectName={projectName} />
         {children}
       </div>
     </div>

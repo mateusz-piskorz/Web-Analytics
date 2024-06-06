@@ -1,25 +1,19 @@
 import styles from "./page.module.scss";
 import Link from "next/link";
+import { PrismaClient } from "@prisma/client";
 
-const navList = [
-  { name: "Audiophile", href: "audiophile/dashboard" },
-  { name: "Google Drive Clone", href: "google-drive-clone/dashboard" },
-  {
-    name: "Interactive Comments Section",
-    href: "interactive-comments-section/dashboard",
-  },
-  { name: "Multi Step Form", href: "google-drive-clone/dashboard" },
-];
+const db = new PrismaClient();
 
-export default function Home() {
+const Home = async () => {
+  const project = await db.project.findMany();
   return (
     <main>
       <nav>
         <ul className={styles.List}>
-          {navList.map((item, index) => (
+          {project.map(({ name }, index) => (
             <li key={index}>
-              <Link className={styles.List_Item} href={item.href}>
-                {item.name}
+              <Link className={styles.List_Item} href={`${name}/dashboard`}>
+                {name}
               </Link>
             </li>
           ))}
@@ -27,4 +21,6 @@ export default function Home() {
       </nav>
     </main>
   );
-}
+};
+
+export default Home;
