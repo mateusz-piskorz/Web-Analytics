@@ -1,7 +1,7 @@
 import React from "react";
 
 const Loading = () => {
-  return <h1>Loading...</h1>;
+  return <div className="spin-loader" aria-label="Loading..."></div>;
 };
 
 export default Loading;
