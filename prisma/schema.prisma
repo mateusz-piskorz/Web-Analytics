@@ -11,6 +11,8 @@ model Project {
   id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   name      String     @unique
+  href      String
+  hrefLabel String
   analytics Analytic[]
   // events    Event[]
 }
