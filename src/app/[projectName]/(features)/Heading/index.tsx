@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./Heading.module.scss";
 import { LiveIcon } from "./assets/LiveIcon";
-import { Select } from "@/src/components/Select";
+import { Select } from "@/src/features/Select";
 
 export const Heading: FC = () => {
   return (
