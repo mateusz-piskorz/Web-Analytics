@@ -7,7 +7,6 @@ export const ListItem: FC<Item & { lightBg?: boolean }> = ({
   quantity,
   lightBg,
 }) => {
-  console.log(lightBg);
   return (
     <div
       className={`${style.ListItem}${

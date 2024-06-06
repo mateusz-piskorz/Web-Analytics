@@ -25,7 +25,6 @@ export default function Home() {
           ))}
         </ul>
       </nav>
-      <h1>Main Page</h1>
     </main>
   );
 }
