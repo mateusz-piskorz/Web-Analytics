@@ -69,8 +69,8 @@ export const Chart: FC<ChartProps> = ({ data, clockType }) => {
 
       showTooltip({
         tooltipData: d7,
-        tooltipLeft: xScale(d7!.x),
-        tooltipTop: yScale(d7!.y),
+        tooltipLeft: xScale(d7?.x || 0),
+        tooltipTop: yScale(d7?.y || 0),
       });
     },
     [showTooltip, yScale, xScale]
