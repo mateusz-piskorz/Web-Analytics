@@ -3,14 +3,17 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
-const allowedOrigins = process.env.CORS?.split(",");
+const allowedOrigins = process.env.CORS ? process.env.CORS.split(",") : "*";
 
 export async function POST(
   request: NextRequest,
   { params: { projectName } }: { params: { projectName: string } }
 ) {
   const origin = request.headers.get("origin");
-  if (!origin || !allowedOrigins?.includes(origin)) {
+  if (
+    allowedOrigins !== "*" &&
+    (!origin || !allowedOrigins?.includes(origin))
+  ) {
     return sendResponse(400, { message: "origin not allowed" });
   }
 
