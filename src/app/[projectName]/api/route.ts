@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import data from "moment-timezone/data/meta/latest.json";
-
+import { getBrowser, getOS } from "./utils";
 const { countries, zones } = data;
 
 type CountryObj = { [key in keyof typeof zones]: string };
@@ -29,12 +29,11 @@ export async function POST(
     return sendResponse(400, { message: "origin not allowed" });
   }
 
-  const {
-    userZone,
-    OS = "unknown",
-    browser = "unknown",
-  } = await request.json();
+  const { userZone } = await request.json();
 
+  const userAgent = request.headers.get("user-agent") || "unknown";
+  const browser = getBrowser(userAgent);
+  const OS = getOS(userAgent);
   // @ts-ignore
   const country = countryObj[userZone] || "unknown";
 
