@@ -14,7 +14,7 @@ model Project {
   href      String
   hrefLabel String
   analytics Analytic[]
-  // events    Event[]
+  events    Event[]
 }
 
 model Analytic {
@@ -27,11 +27,11 @@ model Analytic {
   browser   String
 }
 
-// model Event {
-//   id        String   @id @default(uuid())
-//   createdAt DateTime @default(now())
-//   project   Project  @relation(fields: [projectId], references: [id])
-//   projectId String
-//   category  String
-//   label     String
-// }
+model Event {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+  category  String
+  label     String
+}
