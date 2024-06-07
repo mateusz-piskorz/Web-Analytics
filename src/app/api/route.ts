@@ -12,3 +12,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: error.message });
   }
 }
+
+// export async function POST(request: NextRequest) {
+//   try {
+//     const { name, href, hrefLabel } = await request.json();
+
+//     const project = await db.project.create({
+//       data: { name, href, hrefLabel },
+//     });
+
+//     return NextResponse.json({ project });
+//   } catch (error: any) {
+//     return NextResponse.json({ message: error.message });
+//   }
+// }

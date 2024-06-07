@@ -1,7 +1,5 @@
 import { FC } from "react";
-// import arrowBack from "../../../../../public/arrow-back.svg";
 import Link from "next/link";
-
 import styles from "./Breadcrumb.module.scss";
 import { ArrowBackSvg } from "./components/ArrowBackSvg";
 

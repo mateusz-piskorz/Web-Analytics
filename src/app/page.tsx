@@ -10,13 +10,17 @@ const Home = async () => {
     <main>
       <nav>
         <ul className={styles.List}>
-          {project.map(({ name }, index) => (
-            <li key={index}>
-              <Link className={styles.List_Item} href={`${name}/dashboard`}>
-                {name}
-              </Link>
-            </li>
-          ))}
+          {project.length ? (
+            project.map(({ name }, index) => (
+              <li key={index}>
+                <Link className={styles.List_Item} href={`${name}/dashboard`}>
+                  {name}
+                </Link>
+              </li>
+            ))
+          ) : (
+            <h1>There is no projects available</h1>
+          )}
         </ul>
       </nav>
     </main>
