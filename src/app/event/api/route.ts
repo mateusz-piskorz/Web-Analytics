@@ -4,35 +4,44 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 export async function POST(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  const isCorsDisabled = allowedOrigins === undefined;
-  const isCorsAllowAll = allowedOrigins?.includes("*");
-  const isOriginAllowed = origin && allowedOrigins?.includes(origin);
+  //   const origin = request.headers.get("origin");
+  //   const isCorsDisabled = allowedOrigins === undefined;
+  //   const isCorsAllowAll = allowedOrigins?.includes("*");
+  //   const isOriginAllowed = origin && allowedOrigins?.includes(origin);
 
-  if (!isCorsAllowAll || isCorsDisabled || isOriginAllowed) {
-    return sendResponse(400, { message: "origin not allowed" });
-  }
-
-  const userAgent = request.headers.get("user-agent") || "unknown";
-  const browser = getBrowser(userAgent);
-  const OS = getOS(userAgent);
+  //   if (!isCorsAllowAll || isCorsDisabled || isOriginAllowed) {
+  //     return sendResponse(400, { message: "origin not allowed" });
+  //   }
 
   try {
-    const { userTimeZone, projectName } = await request.json();
+    const {
+      projectName,
+      category = "unknown",
+      label = "unknown",
+    } = await request.json();
 
-    // @ts-ignore
-    const country = countryObj[userTimeZone] || "unknown";
     const project = await db.project.findUnique({
       where: { name: projectName },
     });
+
     if (!project) return sendResponse(404, { message: "project not found" });
 
-    const analytic = await db.analytic.create({
-      data: { browser, country, OS, projectId: project.id },
+    const event = await db.event.create({
+      data: { category, label, projectId: project.id },
     });
 
-    return sendResponse(200, { analytic });
+    return sendResponse(200, { event });
   } catch (error: any) {
     return sendResponse(400, { message: error.message });
   }
 }
+
+const sendResponse = (status: number, message: any) => {
+  return new Response(JSON.stringify(message), {
+    status: status,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    },
+  });
+};
