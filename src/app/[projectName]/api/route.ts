@@ -1,27 +1,42 @@
 import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import data from "moment-timezone/data/meta/latest.json";
+
+const { countries, zones } = data;
+
+type CountryObj = { [key in keyof typeof zones]: string };
+let countryObj: CountryObj = {} as CountryObj;
+Object.values(zones).forEach((value) => {
+  const { name } = value;
+  // @ts-ignore
+  countryObj[name] = countries[value.countries[0]].name;
+});
+let i = 0;
 
 const db = new PrismaClient();
-
-const allowedOrigins = process.env.CORS ? process.env.CORS.split(",") : "*";
+const allowedOrigins = process.env.CORS?.split(",");
 
 export async function POST(
   request: NextRequest,
   { params: { projectName } }: { params: { projectName: string } }
 ) {
   const origin = request.headers.get("origin");
-  if (
-    allowedOrigins !== "*" &&
-    (!origin || !allowedOrigins?.includes(origin))
-  ) {
+  const isCorsDisabled = allowedOrigins === undefined;
+  const isCorsAllowAll = allowedOrigins?.includes("*");
+  const isOriginAllowed = origin && allowedOrigins?.includes(origin);
+
+  if (!isCorsAllowAll || isCorsDisabled || isOriginAllowed) {
     return sendResponse(400, { message: "origin not allowed" });
   }
 
   const {
-    country = "unknown",
+    userZone,
     OS = "unknown",
     browser = "unknown",
   } = await request.json();
+
+  // @ts-ignore
+  const country = countryObj[userZone] || "unknown";
 
   try {
     const project = await db.project.findUnique({

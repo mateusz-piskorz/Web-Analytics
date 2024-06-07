@@ -17,6 +17,7 @@
     "@visx/shape": "^3.5.0",
     "@visx/tooltip": "^3.3.0",
     "@visx/vendor": "^3.5.0",
+    "moment-timezone": "^0.5.45",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
