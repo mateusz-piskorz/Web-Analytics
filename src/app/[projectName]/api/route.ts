@@ -29,15 +29,15 @@ export async function POST(
     return sendResponse(400, { message: "origin not allowed" });
   }
 
-  const { userTimeZone } = await request.json();
-
   const userAgent = request.headers.get("user-agent") || "unknown";
   const browser = getBrowser(userAgent);
   const OS = getOS(userAgent);
-  // @ts-ignore
-  const country = countryObj[userTimeZone] || "unknown";
 
   try {
+    const { userTimeZone } = await request.json();
+
+    // @ts-ignore
+    const country = countryObj[userTimeZone] || "unknown";
     const project = await db.project.findUnique({
       where: { name: projectName },
     });
