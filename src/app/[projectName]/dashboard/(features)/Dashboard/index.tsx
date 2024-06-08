@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { ActivityGraph } from "../../(features)/ActivityGraph";
 import { ActivityList } from "../../(features)/ActivityList";
-import { PrismaClient } from "@prisma/client";
 import {
   Period,
   generateArr,
@@ -11,8 +10,8 @@ import {
 } from "../../constants";
 import { mapHelperFunc } from "./utils";
 import style from "./styles.module.scss";
-
-const db = new PrismaClient();
+import { getProject } from "@/src/db/data-access/project";
+import { getAnalyticsGtePeriod } from "@/src/db/data-access/analytic";
 
 type DashboardProps = {
   params: { projectName: string };
@@ -20,28 +19,21 @@ type DashboardProps = {
 };
 
 export const Dashboard: FC<DashboardProps> = async ({
-  params,
+  params: { projectName },
   analyticPeriod,
 }) => {
   if (!PERIODS_AGO[analyticPeriod as Period]) analyticPeriod = "7";
   const period: Period = analyticPeriod as Period;
   const isHour = period === "24";
 
-  const project = await db.project.findUnique({
-    where: { name: params.projectName },
-  });
+  const project = await getProject(projectName);
 
   if (!project) throw new Error("project not found");
 
-  const analytic = await db.analytic.findMany({
-    where: {
-      projectId: project.id,
-      createdAt: {
-        gte: PERIODS_AGO[period][1],
-      },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const analytic = await getAnalyticsGtePeriod(
+    project.id,
+    PERIODS_AGO[period][0]
+  );
 
   const myLastIndex = analytic.findIndex(
     (e) => e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()

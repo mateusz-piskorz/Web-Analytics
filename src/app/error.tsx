@@ -14,7 +14,7 @@ export default function Error({
 
   return (
     <div>
-      <h2 style={{ color: "white" }}>Something went wrong!</h2>
+      <h2 style={{ color: "white" }}>{error.message}</h2>
       <button onClick={() => reset()}>Try again</button>
     </div>
   );
