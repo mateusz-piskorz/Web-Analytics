@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ActivityGraph } from "../../_features/ActivityGraph";
+import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "../../_features/ActivityList";
 import {
   Period,
