@@ -6,11 +6,25 @@ export type HeaderProps = {
   title: string;
   visitorsCase?: {
     value: number | string;
-    percentage: string;
+    percentage: number;
   };
 };
 
 export const Header: FC<HeaderProps> = ({ title, visitorsCase }) => {
+  const isPositivePercentage = visitorsCase
+    ? visitorsCase?.percentage >= 0
+    : false;
+
+  const percentageClassName = `${styles.Header_Percentages} ${
+    isPositivePercentage
+      ? styles.Header_Percentages__green
+      : styles.Header_Percentages__red
+  }`;
+
+  const percentages = isPositivePercentage
+    ? `+${visitorsCase?.percentage.toFixed(2)}%`
+    : `${visitorsCase?.percentage.toFixed(2)}%`;
+
   return (
     <div className={styles.Header}>
       {visitorsCase ? (
@@ -21,9 +35,7 @@ export const Header: FC<HeaderProps> = ({ title, visitorsCase }) => {
               {visitorsCase.value}
             </span>
           </div>
-          <span className={styles.Header_Percentages}>
-            {visitorsCase.percentage}
-          </span>
+          <span className={percentageClassName}>{percentages}</span>
         </>
       ) : (
         <div className={styles.Header_TitleContainer}>

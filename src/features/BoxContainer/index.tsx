@@ -32,7 +32,7 @@ export const BoxContainerPlaceholder: FC<{ chartCase?: boolean }> = ({
         chartCase ? " " + styles.Container__increaseHeight : ""
       }`}
     >
-      <Header title="" visitorsCase={{ percentage: "", value: "" }} />
+      <Header title="" visitorsCase={{ percentage: 0, value: "" }} />
       <ItemList lightBg list={fakeList} />
     </div>
   );

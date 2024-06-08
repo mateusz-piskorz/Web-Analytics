@@ -25,8 +25,15 @@
   }
 
   &_Percentages {
-    color: var(--green-accent);
     font-size: 1.5rem;
+  }
+
+  &_Percentages__green {
+    color: var(--green-accent);
+  }
+
+  &_Percentages__red {
+    color: red;
   }
 
   &_TitleContainer {

@@ -21,19 +21,13 @@ export const ActivityGraph: FC<ActivityGraphProps> = ({
 }) => {
   const newValue = visitors;
   const valueBefore = visitorsOnePeriodAgo;
-  const percentageNumber = ((newValue - valueBefore) / 1) * 100;
-
-  const percentage =
-    percentageNumber >= 0
-      ? `+${percentageNumber.toFixed(2)}%`
-      : `${percentageNumber.toFixed(2)}%`;
+  const percentage = ((newValue - valueBefore) / 1) * 100;
 
   return (
     <BoxContainer
       title="Visitors"
       visitorsCase={{ value: visitors, percentage }}
     >
-      <h1>old visitors: {visitorsOnePeriodAgo}</h1>
       <div className={styles.Wrapper_ChartContainer}>
         <Chart data={data} clockType={clockType} />
       </div>
