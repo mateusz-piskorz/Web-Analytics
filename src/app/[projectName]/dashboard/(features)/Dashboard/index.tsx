@@ -48,6 +48,7 @@ export const Dashboard: FC<DashboardProps> = async ({
   const OSArr = mapHelperFunc(analytic, "OS");
 
   const MyActivityArray = generateArr(period);
+
   const newVisitors = MyActivityArray.map((item) => {
     let visitors = 0;
     const divider = isHour ? oneHour : oneDay;
@@ -61,12 +62,17 @@ export const Dashboard: FC<DashboardProps> = async ({
         visitors++;
       }
     });
+
     return { x, y: visitors };
   });
 
   return (
     <>
-      <ActivityGraph data={newVisitors} clockType={isHour ? "hours" : "days"} />
+      <ActivityGraph
+        visitors={analytic.length}
+        data={newVisitors}
+        clockType={isHour ? "hours" : "days"}
+      />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countriesArr} />
         <ActivityList title="Browsers" list={browsersArr} />

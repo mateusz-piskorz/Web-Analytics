@@ -8,13 +8,18 @@ import { BoxContainer } from "@/src/features/BoxContainer";
 type ActivityGraphProps = {
   data: GraphData;
   clockType: ClockType;
+  visitors: number;
 };
 
-export const ActivityGraph: FC<ActivityGraphProps> = ({ data, clockType }) => {
+export const ActivityGraph: FC<ActivityGraphProps> = ({
+  data,
+  clockType,
+  visitors,
+}) => {
   return (
     <BoxContainer
       title="Visitors"
-      visitorsCase={{ value: 42, percentage: "+3.94%" }}
+      visitorsCase={{ value: visitors, percentage: "+3.94%" }}
     >
       <div className={styles.Wrapper_ChartContainer}>
         <Chart data={data} clockType={clockType} />
