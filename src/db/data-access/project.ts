@@ -4,9 +4,12 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 export const getProject = async (projectName: string) => {
-  return await db.project.findUnique({
+  const project = await db.project.findUnique({
     where: { name: projectName },
   });
+  if (!project) throw new Error("project not found");
+
+  return project;
 };
 
 export const getAllProjects = async () => {

@@ -25,8 +25,6 @@ export const Dashboard: FC<DashboardProps> = async ({
 
   const project = await getProject(projectName);
 
-  if (!project) throw new Error("project not found");
-
   const analytic = await getAnalyticsGtePeriod(
     project.id,
     PERIODS_AGO[period][0]

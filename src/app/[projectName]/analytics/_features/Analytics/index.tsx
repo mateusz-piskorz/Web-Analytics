@@ -21,8 +21,6 @@ export const Analytics: FC<AnalyticsProps> = async ({
 
   const project = await getProject(projectName);
 
-  if (!project) throw new Error("project not found");
-
   const analytic = await getEventsGtePeriod(project.id, PERIODS_AGO[period][0]);
 
   const list = myFunction(analytic);
