@@ -9,3 +9,6 @@ export const PERIODS_AGO = {
     new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
   ],
 };
+
+export const oneHour = 3600000;
+export const oneDay = 86400000;

@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "../../_features/ActivityList";
-import { generateArr, oneDay, oneHour } from "../../constants";
+import { generateArr } from "../../constants";
+import { oneDay, oneHour } from "@/src/constants";
 import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
 import { mapHelperFunc } from "./utils";

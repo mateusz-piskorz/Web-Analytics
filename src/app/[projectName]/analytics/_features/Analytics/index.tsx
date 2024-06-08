@@ -1,5 +1,7 @@
 import React, { FC } from "react";
-import { PERIODS_AGO, Period } from "../../../dashboard/constants";
+
+import { PERIODS_AGO } from "@/src/constants";
+import { Period } from "@/src/types";
 import { myFunction } from "./test";
 import { EventList } from "../EventList";
 import { getProject } from "@/src/db//data-access/project";

@@ -11,7 +11,7 @@ import { useTooltip } from "@visx/tooltip";
 import { Tooltip } from "./Tooltip";
 import useMeasure from "react-use-measure";
 import { ClockType, GraphData } from "../types";
-import { oneDay, oneHour } from "../../../constants";
+import { oneDay, oneHour } from "@/src/constants";
 
 type ChartProps = {
   data: GraphData;

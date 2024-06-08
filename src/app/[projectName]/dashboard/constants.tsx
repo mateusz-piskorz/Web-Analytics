@@ -1,6 +1,5 @@
 import { Period } from "@/src/types";
-export const oneHour = 3600000;
-export const oneDay = 86400000;
+import { oneDay, oneHour } from "@/src/constants";
 
 export const generateArr = (arrayType: Period) => {
   const timeXOne = arrayType === "24" ? oneHour : oneDay;
