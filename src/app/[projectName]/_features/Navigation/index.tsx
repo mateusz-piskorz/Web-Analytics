@@ -15,8 +15,8 @@ type NavigationProps = {
 };
 
 const linkArr = [
-  { href: "dashboard", label: "Dashboard" },
-  { href: "analytics", label: "Analytics" },
+  { href: "dashboard", label: "Dashboard", Icon: DashboardSvg },
+  { href: "analytics", label: "Analytics", Icon: AnalyticsSvg },
 ];
 
 export const Navigation: FC<NavigationProps> = ({
@@ -33,7 +33,7 @@ export const Navigation: FC<NavigationProps> = ({
       className={`${styles.Nav}${!isNavOpen ? " " + styles.Nav__hidden : ""}`}
     >
       <ul className={styles.Nav_List}>
-        {linkArr.map(({ href, label }) => (
+        {linkArr.map(({ href, label, Icon }) => (
           <li className={styles.Nav_Item} key={href}>
             <Link
               onClick={setNavClose}
@@ -42,7 +42,7 @@ export const Navigation: FC<NavigationProps> = ({
               }`}
               href={`/${projectName}/${href}?analyticPeriod=7`}
             >
-              <DashboardSvg />
+              <Icon />
               <span>{label}</span>
             </Link>
           </li>
