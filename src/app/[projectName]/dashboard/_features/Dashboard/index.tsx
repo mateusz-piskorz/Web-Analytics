@@ -1,13 +1,9 @@
 import React, { FC } from "react";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "../../_features/ActivityList";
-import {
-  Period,
-  generateArr,
-  oneDay,
-  oneHour,
-  PERIODS_AGO,
-} from "../../constants";
+import { generateArr, oneDay, oneHour } from "../../constants";
+import { PERIODS_AGO } from "@/src/constants";
+import { Period } from "@/src/types";
 import { mapHelperFunc } from "./utils";
 import style from "./styles.module.scss";
 import { getProject } from "@/src/db/data-access/project";
