@@ -25,7 +25,7 @@ export const Navigation: FC<NavigationProps> = ({
           <Link
             onClick={setNavClose}
             className={`${styles.Nav_Link} ${styles.Nav_Link__active}`}
-            href={`/${projectName}/dashboard`}
+            href={`/${projectName}/dashboard?analyticPeriod=7`}
           >
             <DashboardSvg />
             <span>Dashboard</span>
@@ -35,7 +35,7 @@ export const Navigation: FC<NavigationProps> = ({
           <Link
             onClick={setNavClose}
             className={styles.Nav_Link}
-            href={`/${projectName}/analytics`}
+            href={`/${projectName}/analytics?analyticPeriod=7`}
           >
             <AnalyticsSvg />
             <span>Analytics</span>
