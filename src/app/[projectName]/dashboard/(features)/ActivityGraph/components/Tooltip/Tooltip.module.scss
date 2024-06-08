@@ -5,6 +5,7 @@
   position: absolute;
   left: 0px;
   bottom: 22px;
+  pointer-events: none;
 }
 
 .Circle {
@@ -15,6 +16,7 @@
   position: absolute;
   transform-origin: center;
   transform: translate(-3px, -4px);
+  pointer-events: none;
 }
 
 .Tooltip {

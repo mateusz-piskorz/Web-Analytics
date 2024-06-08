@@ -37,15 +37,23 @@ export const Dashboard: FC<DashboardProps> = async ({
     where: {
       projectId: project.id,
       createdAt: {
-        gte: PERIODS_AGO[period],
+        gte: PERIODS_AGO[period][1],
       },
     },
     orderBy: { createdAt: "desc" },
   });
 
-  const countriesArr = mapHelperFunc(analytic, "country");
-  const browsersArr = mapHelperFunc(analytic, "browser");
-  const OSArr = mapHelperFunc(analytic, "OS");
+  const myLastIndex = analytic.findIndex(
+    (e) => e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
+  );
+
+  const newestAnalytic = analytic.slice(0, myLastIndex);
+
+  const analyticOnePeriodAgo = analytic.slice(myLastIndex);
+
+  const countriesArr = mapHelperFunc(newestAnalytic, "country");
+  const browsersArr = mapHelperFunc(newestAnalytic, "browser");
+  const OSArr = mapHelperFunc(newestAnalytic, "OS");
 
   const MyActivityArray = generateArr(period);
 
@@ -56,7 +64,7 @@ export const Dashboard: FC<DashboardProps> = async ({
     const time = x.getTime();
     const min = time - divider / 2;
     const max = time + divider / 2 + 1;
-    analytic.forEach((analyticItem) => {
+    newestAnalytic.forEach((analyticItem) => {
       const analyticTime = analyticItem.createdAt.getTime();
       if (analyticTime > min && analyticTime < max) {
         visitors++;
@@ -69,7 +77,8 @@ export const Dashboard: FC<DashboardProps> = async ({
   return (
     <>
       <ActivityGraph
-        visitors={analytic.length}
+        visitors={newestAnalytic.length}
+        visitorsOnePeriodAgo={analyticOnePeriodAgo.length}
         data={newVisitors}
         clockType={isHour ? "hours" : "days"}
       />

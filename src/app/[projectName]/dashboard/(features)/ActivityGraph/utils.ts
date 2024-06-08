@@ -14,3 +14,7 @@ export const parseDate = (clockType: ClockType, date: Date) => {
     return date.toLocaleDateString();
   }
 };
+
+export const percentage = (percent: number, total: number) => {
+  return ((percent / 10) * total).toFixed(2);
+};
