@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { ActivityGraph } from "../../(features)/ActivityGraph";
-import { ActivityList } from "../../(features)/ActivityList";
+import { ActivityGraph } from "../../_features/ActivityGraph";
+import { ActivityList } from "../../_features/ActivityList";
 import {
   Period,
   generateArr,

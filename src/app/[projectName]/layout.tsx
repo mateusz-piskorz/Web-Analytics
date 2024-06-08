@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { Breadcrumb } from "./(features)/Breadcrumb";
-import { Header } from "./(features)/Header";
+import { Breadcrumb } from "./_features/Breadcrumb";
+import { Header } from "./_features/Header";
 import styles from "./layout.module.scss";
-import { Heading } from "./(features)/Heading";
+import { Heading } from "./_features/Heading";
 
 const ProjectsLayout: FC<{
   children: React.ReactNode;

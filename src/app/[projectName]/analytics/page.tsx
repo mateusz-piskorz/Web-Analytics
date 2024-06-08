@@ -1,5 +1,5 @@
 import React, { FC, Suspense } from "react";
-import { Analytics } from "./(features)/Analytics";
+import { Analytics } from "./_features/Analytics";
 type DashboardProps = {
   params: { projectName: string };
   searchParams: { analyticPeriod: string | undefined };
