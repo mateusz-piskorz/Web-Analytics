@@ -11,7 +11,7 @@ import { useTooltip } from "@visx/tooltip";
 import { Tooltip } from "./Tooltip";
 import useMeasure from "react-use-measure";
 import { ClockType, GraphData } from "../types";
-import { oneDay, oneHour } from "@/src/constants";
+import { oneDay, oneHour } from "../../../constants";
 
 type ChartProps = {
   data: GraphData;
@@ -101,6 +101,7 @@ export const Chart: FC<ChartProps> = ({ data, clockType }) => {
               hideAxisLine
               hideTicks
               scale={xScale}
+              tickValues={arrayFilter(xValues)}
               top={height - margin + 5}
               tickLabelProps={{ fill: "rgba(255,255,255,.6)" }}
               tickFormat={(tick) => parseDate(clockType, tick as Date)}
@@ -159,3 +160,16 @@ export const Chart: FC<ChartProps> = ({ data, clockType }) => {
   );
 };
 //
+
+const arrayFilter = (array: any[]) => {
+  const { length } = array;
+  const plusVal = Math.ceil(length / 6);
+
+  const newArr = [];
+  for (var i = 0; i < length; i = i + plusVal) {
+    newArr.push(array[i]);
+  }
+  newArr.push(array[length - 1]);
+
+  return newArr;
+};
