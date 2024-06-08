@@ -28,7 +28,7 @@ export const Analytics: FC<AnalyticsProps> = async ({
     where: {
       projectId: project.id,
       createdAt: {
-        gte: PERIODS_AGO[period],
+        gte: PERIODS_AGO[period][0],
       },
     },
     orderBy: { createdAt: "desc" },
