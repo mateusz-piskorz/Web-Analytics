@@ -1,17 +1,16 @@
 import styles from "./page.module.scss";
 import Link from "next/link";
-import { PrismaClient } from "@prisma/client";
-
-const db = new PrismaClient();
+import { getAllProjects } from "@/src/db/data-access/project";
 
 const Home = async () => {
-  const project = await db.project.findMany();
+  const projects = await getAllProjects();
+
   return (
     <main>
       <nav>
         <ul className={styles.List}>
-          {project.length ? (
-            project.map(({ name }, index) => (
+          {projects.length ? (
+            projects.map(({ name }, index) => (
               <li key={index}>
                 <Link className={styles.List_Item} href={`${name}/dashboard`}>
                   {name}
