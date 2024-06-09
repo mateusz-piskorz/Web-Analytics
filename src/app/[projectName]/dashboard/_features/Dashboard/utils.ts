@@ -2,13 +2,9 @@ import { Period } from "@/src/types";
 import { oneDay, oneHour } from "@/src/constants";
 import { Activity } from "@prisma/client";
 
-export const countActivity = (
-  arrayType: Period,
-  activityArray: Activity[],
-  isHour?: boolean
-) => {
+export const countActivity = (arrayType: Period, activityArray: Activity[]) => {
   const array = generateActivityArr(arrayType);
-
+  const isHour = arrayType === "24";
   return array.map((item) => {
     let visitors = 0;
     const divider = isHour ? oneHour : oneDay;

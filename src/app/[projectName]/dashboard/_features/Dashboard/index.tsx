@@ -40,7 +40,7 @@ export const Dashboard: FC<DashboardProps> = async ({
 
   const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
 
-  const newVisitors = countActivity(period, newestAnalytic, isHour);
+  const newVisitors = countActivity(period, newestAnalytic);
   return (
     <>
       <ActivityGraph

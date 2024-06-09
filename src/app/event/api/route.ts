@@ -3,6 +3,11 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
+export async function DELETE(request: NextRequest) {
+  await db.event.deleteMany({});
+  return new Response("success", { status: 200 });
+}
+
 export async function POST(request: NextRequest) {
   //   const origin = request.headers.get("origin");
   //   const isCorsDisabled = allowedOrigins === undefined;
@@ -26,9 +31,11 @@ export async function POST(request: NextRequest) {
 
     if (!project) return sendResponse(404, { message: "project not found" });
 
-    const event = await db.event.create({
-      data: { category, label, projectId: project.id },
-    });
+    // const event = await db.event.findUnique
+
+    // const event = await db.event.create({
+    //   data: { category, label, projectId: project.id },
+    // });
 
     return sendResponse(200, { event });
   } catch (error: any) {
