@@ -1,14 +1,16 @@
 "use server";
 import { db } from "../constants";
 
-export const getEventsGtePeriod = async (projectId: string, period: Date) => {
-  return await db.event.findMany({
+export const getEventsGtePeriod = async (projectName: string, period: Date) => {
+  const data = await db.event.findMany({
     where: {
-      projectId,
-      createdAt: {
-        gte: period,
-      },
+      projectName,
     },
-    orderBy: { createdAt: "desc" },
+    select: {
+      name: true,
+      labels: { where: { createdAt: { gte: period } } },
+    },
   });
+
+  return data;
 };

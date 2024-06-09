@@ -7,6 +7,7 @@ import { EventList } from "../EventList";
 import { getProject } from "@/src/db//data-access/project";
 import { getEventsGtePeriod } from "@/src/db//data-access/event";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
+import { countEvents } from "./utils";
 
 type AnalyticsProps = {
   params: { projectName: string };
@@ -20,41 +21,13 @@ export const Analytics: FC<AnalyticsProps> = async ({
   if (!PERIODS_AGO[analyticPeriod as Period]) analyticPeriod = "7";
   const period: Period = analyticPeriod as Period;
 
-  const project = await getProject(projectName);
-
-  const events = await getEventsGtePeriod(project.id, PERIODS_AGO[period][0]);
-
-  const whatIWant = {
-    button_click: [
-      {
-        label: "product1",
-        activityArr: [
-          {
-            id: "fgre",
-            createdAt: new Date(),
-            projectId: "gfregre",
-            category: "gfregre",
-            label: "gfregre",
-          },
-        ],
-      },
-      {
-        label: "product2",
-        activityArr: [
-          {
-            id: "fgre",
-            createdAt: new Date(),
-            projectId: "gfregre",
-            category: "gfregre",
-            label: "gfregre",
-          },
-        ],
-      },
-    ],
-  };
+  const events = await getEventsGtePeriod(projectName, PERIODS_AGO[period][0]);
+  console.log("events");
+  console.log(events[1]);
 
   const list = myFunction(events);
-  console.log(events);
+
+  const c = countEvents(events[1].labels);
 
   return (
     <>
