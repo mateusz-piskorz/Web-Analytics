@@ -1,19 +1,28 @@
-export const mapHelperFunc = (array: any[], objectName: string) => {
-  const cos = array.reduce((cnt, cur) => {
-    const rightIndex = cnt.findIndex((e: any) => e.name === cur[objectName]);
-    if (rightIndex !== -1) {
-      //@ts-ignore
-      cnt[rightIndex] = {
-        //@ts-ignore
-        ...cnt[rightIndex],
-        //@ts-ignore
-        quantity: cnt[rightIndex].quantity + 1,
-      };
-    } else {
-      //@ts-ignore
-      cnt.push({ name: cur[objectName], quantity: 1 });
-    }
-    return cnt;
-  }, []);
-  return cos;
+export const countActivity = (array: any[]) => {
+  const { countries, browsers, OSs } = array.reduce(
+    (acc, item) => {
+      const { country, browser, OS } = item;
+      const { countries, browsers, OSs } = acc;
+
+      countries[country] = (countries[country] || 0) + 1;
+      OSs[OS] = (OSs[OS] || 0) + 1;
+      browsers[browser] = (browsers[browser] || 0) + 1;
+
+      return acc;
+    },
+    { countries: {}, browsers: {}, OSs: {} }
+  );
+
+  return {
+    countries: objToArray(countries),
+    browsers: objToArray(browsers),
+    OSs: objToArray(OSs),
+  };
+};
+
+const objToArray = (obj: any) => {
+  return Object.entries(obj).map(([name, quantity]) => ({
+    name,
+    quantity: quantity as number,
+  }));
 };

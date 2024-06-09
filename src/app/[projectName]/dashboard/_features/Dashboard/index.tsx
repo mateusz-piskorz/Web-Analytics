@@ -5,7 +5,7 @@ import { generateArr } from "../../constants";
 import { oneDay, oneHour } from "@/src/constants";
 import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
-import { mapHelperFunc } from "./utils";
+import { countActivity } from "./utils";
 import style from "./styles.module.scss";
 import { getProject } from "@/src/db/data-access/project";
 import { getAnalyticsGtePeriod } from "@/src/db/data-access/analytic";
@@ -38,9 +38,7 @@ export const Dashboard: FC<DashboardProps> = async ({
 
   const analyticOnePeriodAgo = analytic.slice(myLastIndex);
 
-  const countriesArr = mapHelperFunc(newestAnalytic, "country");
-  const browsersArr = mapHelperFunc(newestAnalytic, "browser");
-  const OSArr = mapHelperFunc(newestAnalytic, "OS");
+  const { countries, browsers, OSs } = countActivity(newestAnalytic);
 
   const MyActivityArray = generateArr(period);
 
@@ -70,9 +68,9 @@ export const Dashboard: FC<DashboardProps> = async ({
         clockType={isHour ? "hours" : "days"}
       />
       <div className={style.ActivityListContainer}>
-        <ActivityList title="Countries" list={countriesArr} />
-        <ActivityList title="Browsers" list={browsersArr} />
-        <ActivityList title="Operating Systems" list={OSArr} />
+        <ActivityList title="Countries" list={countries} />
+        <ActivityList title="Browsers" list={browsers} />
+        <ActivityList title="Operating Systems" list={OSs} />
       </div>
     </>
   );
