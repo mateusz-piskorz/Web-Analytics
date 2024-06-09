@@ -3,18 +3,20 @@ import { BoxContainer } from "@/src/features/BoxContainer";
 import { ItemList, Item } from "@/src/features/ItemList";
 import style from "@/src/features/ItemList/ItemList.module.scss";
 import { ListItem } from "@/src/features/ItemList/components/ListItem";
+import { countEvents } from "../Analytics/utils";
 
-type myType = {
-  category: string;
-  value: number;
+type Event = {
+  name: string;
   labels: {
-    label: string;
-    value: number;
+    id: string;
+    createdAt: Date;
+    eventName: string;
+    name: string;
   }[];
-}[];
+};
 
 type EventListProps = {
-  list: myType;
+  list: Event[];
   title: string;
 };
 
@@ -23,19 +25,20 @@ export const EventList: FC<EventListProps> = ({ list, title }) => {
     <BoxContainer title={title}>
       <div className={style.List}>
         {list.map((item, index) => {
+          const labelList = countEvents(item.labels);
           return (
             <>
               <ListItem
                 key={index}
-                name={item.category}
-                quantity={item.value}
+                name={item.name}
+                quantity={item.labels.length}
               />
-              {item.labels.map((label, index) => {
+              {labelList.map((label, index) => {
                 return (
                   <ListItem
                     isNested
                     key={index}
-                    name={label.label}
+                    name={label.name}
                     quantity={label.value}
                   />
                 );

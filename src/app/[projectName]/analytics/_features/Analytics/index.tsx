@@ -25,10 +25,6 @@ export const Analytics: FC<AnalyticsProps> = async ({
   console.log("events");
   console.log(events[1]);
 
-  const list = myFunction(events);
-
-  const c = countEvents(events[1].labels);
-
   return (
     <>
       {/* <ActivityGraph
@@ -37,7 +33,7 @@ export const Analytics: FC<AnalyticsProps> = async ({
         data={newVisitors}
         clockType={isHour ? "hours" : "days"}
       /> */}
-      <EventList list={list} title="events" />
+      <EventList list={events} title="events" />
     </>
   );
 };

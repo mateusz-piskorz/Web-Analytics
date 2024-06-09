@@ -1,4 +1,11 @@
-export const countEvents = (array: any[]) => {
+type EventLabel = {
+  id: string;
+  createdAt: Date;
+  eventName: string;
+  name: string;
+};
+
+export const countEvents = (array: EventLabel[]) => {
   const data = array.reduce((acc, item) => {
     const { name, eventName } = item;
 
@@ -10,7 +17,7 @@ export const countEvents = (array: any[]) => {
     }
 
     return acc;
-  }, []);
+  }, [] as { name: string; eventName: string; value: number }[]);
 
   return data;
 };
