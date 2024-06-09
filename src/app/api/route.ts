@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     });
     if (!project) return sendResponse(404, { message: "project not found" });
 
-    const analytic = await db.analytic.create({
+    const analytic = await db.activity.create({
       data: { browser, country, OS, projectId: project.id },
     });
 

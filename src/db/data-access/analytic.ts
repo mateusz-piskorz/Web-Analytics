@@ -3,11 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
-export const getAnalyticsGtePeriod = async (
-  projectId: string,
-  period: Date
-) => {
-  return await db.analytic.findMany({
+export const getActivityGtePeriod = async (projectId: string, period: Date) => {
+  return await db.activity.findMany({
     where: {
       projectId,
       createdAt: {

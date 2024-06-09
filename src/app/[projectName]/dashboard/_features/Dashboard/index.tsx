@@ -1,14 +1,12 @@
 import React, { FC } from "react";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "../../_features/ActivityList";
-import { generateArr } from "../../constants";
-import { oneDay, oneHour } from "@/src/constants";
 import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
-import { countActivity } from "./utils";
+import { countAnalytics, countActivity } from "./utils";
 import style from "./styles.module.scss";
 import { getProject } from "@/src/db/data-access/project";
-import { getAnalyticsGtePeriod } from "@/src/db/data-access/analytic";
+import { getActivityGtePeriod } from "@/src/db/data-access/analytic";
 
 type DashboardProps = {
   params: { projectName: string };
@@ -25,7 +23,7 @@ export const Dashboard: FC<DashboardProps> = async ({
 
   const project = await getProject(projectName);
 
-  const analytic = await getAnalyticsGtePeriod(
+  const analytic = await getActivityGtePeriod(
     project.id,
     PERIODS_AGO[period][0]
   );
@@ -34,31 +32,15 @@ export const Dashboard: FC<DashboardProps> = async ({
     (e) => e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
   );
 
-  const newestAnalytic = analytic.slice(0, myLastIndex);
+  const newestAnalytic =
+    myLastIndex === -1 ? analytic : analytic.slice(0, myLastIndex);
 
-  const analyticOnePeriodAgo = analytic.slice(myLastIndex);
+  const analyticOnePeriodAgo =
+    myLastIndex === -1 ? [] : analytic.slice(myLastIndex);
 
-  const { countries, browsers, OSs } = countActivity(newestAnalytic);
+  const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
 
-  const MyActivityArray = generateArr(period);
-
-  const newVisitors = MyActivityArray.map((item) => {
-    let visitors = 0;
-    const divider = isHour ? oneHour : oneDay;
-    const { x, y } = item;
-    const time = x.getTime();
-    const min = time - divider / 2;
-    const max = time + divider / 2 + 1;
-    newestAnalytic.forEach((analyticItem) => {
-      const analyticTime = analyticItem.createdAt.getTime();
-      if (analyticTime > min && analyticTime < max) {
-        visitors++;
-      }
-    });
-
-    return { x, y: visitors };
-  });
-
+  const newVisitors = countActivity(period, newestAnalytic, isHour);
   return (
     <>
       <ActivityGraph
