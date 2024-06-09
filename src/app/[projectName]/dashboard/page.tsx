@@ -11,6 +11,7 @@ const DashboardPage: FC<DashboardProps> = async ({
   params,
   searchParams: { analyticPeriod = "7" },
 }) => {
+  return <Dashboard params={params} analyticPeriod={analyticPeriod} />;
   return (
     <Suspense key={analyticPeriod} fallback={<DashboardPlaceholder />}>
       <Dashboard params={params} analyticPeriod={analyticPeriod} />

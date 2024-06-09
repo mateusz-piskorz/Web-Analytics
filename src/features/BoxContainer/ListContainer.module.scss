@@ -1,7 +1,7 @@
 .Container {
   border: 1px solid var(--primary-border);
   border-radius: 7px;
-  height: 300px;
+
   flex: 1;
   min-width: 100%;
   margin: auto;
@@ -9,6 +9,11 @@
 
   &__increaseHeight {
     height: 382px;
+  }
+
+  &_Body {
+    min-height: 100px;
+    height: 300px;
   }
 }
 
@@ -18,8 +23,8 @@
     min-width: 410px;
     margin: unset;
 
-    &__increaseHeight {
-      height: 482px;
+    &_Body__increaseHeight {
+      height: 400px;
     }
   }
 }

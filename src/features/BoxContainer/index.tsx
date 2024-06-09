@@ -1,39 +1,48 @@
 import { FC, ReactNode } from "react";
 import styles from "./ListContainer.module.scss";
-import { Header, HeaderProps } from "./components/Header";
+import { Header, HeaderProps, HeaderPlaceholder } from "./components/Header";
 import { ItemList } from "@/src/features/ItemList";
 
 type ListContainerProps = HeaderProps & {
   children?: ReactNode;
+  h400desktop?: boolean;
+  placeholder?: boolean;
 };
 
 export const BoxContainer: FC<ListContainerProps> = ({
   children,
+  h400desktop,
   ...headerProps
 }) => {
+  const bodyClassName = `${styles.Container_Body}${
+    h400desktop ? " " + styles.Container_Body__increaseHeight : ""
+  }`;
+
   return (
     <div className={styles.Container}>
       <Header {...headerProps} />
-      {children}
+      <div className={bodyClassName}>{children}</div>
     </div>
   );
 };
 
-export const BoxContainerPlaceholder: FC<{ chartCase?: boolean }> = ({
-  chartCase,
+export const BoxContainerPlaceholder: FC<{ h400desktop?: boolean }> = ({
+  h400desktop,
 }) => {
-  const fakeList = Array.from(Array(4)).map((e) => ({
+  const fakeList = Array.from(Array(14)).map((e) => ({
     name: "",
     quantity: "",
   }));
+  const bodyClassName = `${styles.Container_Body}${
+    h400desktop ? " " + styles.Container_Body__increaseHeight : ""
+  }`;
   return (
-    <div
-      className={`${styles.Container}${
-        chartCase ? " " + styles.Container__increaseHeight : ""
-      }`}
-    >
-      <Header title="" visitorsCase={{ percentage: 0, value: "" }} />
-      <ItemList lightBg list={fakeList} />
+    <div className={styles.Container}>
+      <HeaderPlaceholder />
+      <div className={bodyClassName}>
+        {" "}
+        <ItemList lightBg list={fakeList} />
+      </div>
     </div>
   );
 };

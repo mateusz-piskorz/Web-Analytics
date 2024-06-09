@@ -46,3 +46,7 @@ export const Header: FC<HeaderProps> = ({ title, visitorsCase }) => {
     </div>
   );
 };
+
+export const HeaderPlaceholder = () => {
+  return <div className={styles.Header}></div>;
+};

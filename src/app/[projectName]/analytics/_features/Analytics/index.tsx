@@ -6,6 +6,7 @@ import { myFunction } from "./test";
 import { EventList } from "../EventList";
 import { getProject } from "@/src/db//data-access/project";
 import { getEventsGtePeriod } from "@/src/db//data-access/event";
+import { ActivityGraph } from "@/src/features/ActivityGraph";
 
 type AnalyticsProps = {
   params: { projectName: string };
@@ -21,9 +22,49 @@ export const Analytics: FC<AnalyticsProps> = async ({
 
   const project = await getProject(projectName);
 
-  const analytic = await getEventsGtePeriod(project.id, PERIODS_AGO[period][0]);
+  const events = await getEventsGtePeriod(project.id, PERIODS_AGO[period][0]);
 
-  const list = myFunction(analytic);
+  const whatIWant = {
+    button_click: [
+      {
+        label: "product1",
+        activityArr: [
+          {
+            id: "fgre",
+            createdAt: new Date(),
+            projectId: "gfregre",
+            category: "gfregre",
+            label: "gfregre",
+          },
+        ],
+      },
+      {
+        label: "product2",
+        activityArr: [
+          {
+            id: "fgre",
+            createdAt: new Date(),
+            projectId: "gfregre",
+            category: "gfregre",
+            label: "gfregre",
+          },
+        ],
+      },
+    ],
+  };
 
-  return <EventList list={list} title="events" />;
+  const list = myFunction(events);
+  console.log(events);
+
+  return (
+    <>
+      {/* <ActivityGraph
+        visitors={newestAnalytic.length}
+        visitorsOnePeriodAgo={analyticOnePeriodAgo.length}
+        data={newVisitors}
+        clockType={isHour ? "hours" : "days"}
+      /> */}
+      <EventList list={list} title="events" />
+    </>
+  );
 };

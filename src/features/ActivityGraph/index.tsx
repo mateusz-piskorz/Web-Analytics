@@ -26,6 +26,7 @@ export const ActivityGraph: FC<ActivityGraphProps> = ({
   return (
     <BoxContainer
       title="Visitors"
+      h400desktop
       visitorsCase={{ value: visitors, percentage }}
     >
       <div className={styles.Wrapper_ChartContainer}>
