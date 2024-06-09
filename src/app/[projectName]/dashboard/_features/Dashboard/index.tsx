@@ -5,8 +5,7 @@ import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
 import { countAnalytics, countActivity } from "./utils";
 import style from "./styles.module.scss";
-import { getProject } from "@/src/db/data-access/project";
-import { getActivityGtePeriod } from "@/src/db/data-access/analytic";
+import { getActivityGtePeriod } from "@/src/db/data-access/activity";
 
 type DashboardProps = {
   params: { projectName: string };
@@ -21,26 +20,25 @@ export const Dashboard: FC<DashboardProps> = async ({
   const period: Period = analyticPeriod as Period;
   const isHour = period === "24";
 
-  const project = await getProject(projectName);
-
-  const analytic = await getActivityGtePeriod(
-    project.id,
+  const { activity } = await getActivityGtePeriod(
+    projectName,
     PERIODS_AGO[period][0]
   );
 
-  const myLastIndex = analytic.findIndex(
+  const myLastIndex = activity.findIndex(
     (e) => e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
   );
 
   const newestAnalytic =
-    myLastIndex === -1 ? analytic : analytic.slice(0, myLastIndex);
+    myLastIndex === -1 ? activity : activity.slice(0, myLastIndex);
 
   const analyticOnePeriodAgo =
-    myLastIndex === -1 ? [] : analytic.slice(myLastIndex);
+    myLastIndex === -1 ? [] : activity.slice(myLastIndex);
 
   const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
 
   const newVisitors = countActivity(period, newestAnalytic);
+
   return (
     <>
       <ActivityGraph
