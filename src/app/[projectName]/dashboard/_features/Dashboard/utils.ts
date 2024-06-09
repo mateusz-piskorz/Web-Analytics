@@ -8,10 +8,11 @@ export const countActivity = (
   isHour?: boolean
 ) => {
   const array = generateActivityArr(arrayType);
+
   return array.map((item) => {
     let visitors = 0;
     const divider = isHour ? oneHour : oneDay;
-    const { x, y } = item;
+    const { x } = item;
     const time = x.getTime();
     const min = time - divider / 2;
     const max = time + divider / 2 + 1;
@@ -57,12 +58,10 @@ const objToArray = (obj: any) => {
 
 const generateActivityArr = (arrayType: Period) => {
   const timeXOne = arrayType === "24" ? oneHour : oneDay;
-  const myArr = Array.from(Array(+arrayType)).map((i, index) => {
+  return Array.from(Array(+arrayType)).map((_, index) => {
     const newDate = new Date(new Date().getTime() - timeXOne * index);
     newDate.setMinutes(newDate.getMinutes() + 30);
     newDate.setMinutes(0);
     return { x: newDate, y: 0 };
   });
-
-  return myArr;
 };

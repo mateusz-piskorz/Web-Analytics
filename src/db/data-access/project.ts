@@ -1,7 +1,5 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
-
-const db = new PrismaClient();
+import { db } from "../constants";
 
 export const getProject = async (projectName: string) => {
   const project = await db.project.findUnique({

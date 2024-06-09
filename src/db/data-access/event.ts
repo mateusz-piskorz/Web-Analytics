@@ -1,7 +1,5 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
-
-const db = new PrismaClient();
+import { db } from "../constants";
 
 export const getEventsGtePeriod = async (projectId: string, period: Date) => {
   return await db.event.findMany({
