@@ -40,7 +40,6 @@ export const BoxContainerPlaceholder: FC<{ h400desktop?: boolean }> = ({
     <div className={styles.Container}>
       <HeaderPlaceholder />
       <div className={bodyClassName}>
-        {" "}
         <ItemList lightBg list={fakeList} />
       </div>
     </div>

@@ -41,17 +41,14 @@ export const EventsProvider: FC<{
     eventName: EventsArr[0].labels[0].eventName,
   });
 
-  // console.log("filter.eventName");
-  // console.log(filter.eventName);
-  // console.log("EventsArr");
   const event = EventsArr.find((e) => e.name === filter.eventName);
   if (!event) throw new Error("event not found");
 
-  const data = event.labels.filter((event) => {
+  const filteredData = event.labels.filter((event) => {
     filter.name.includes(event.name);
   });
 
-  // console.log(data);
+  console.log(filteredData);
 
   return (
     <Context.Provider
