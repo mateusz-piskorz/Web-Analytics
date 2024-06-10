@@ -1,6 +1,3 @@
-export type GraphData = {
-  x: Date;
-  y: number;
-}[];
+export type GraphData = { createdAt: Date }[];
 
 export type ClockType = "days" | "hours";

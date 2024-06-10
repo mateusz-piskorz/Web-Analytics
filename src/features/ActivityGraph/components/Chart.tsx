@@ -14,7 +14,7 @@ import { ClockType, GraphData } from "../types";
 import { oneDay, oneHour } from "../../../constants";
 
 type ChartProps = {
-  data: GraphData;
+  data: { x: Date; y: number }[];
   clockType: ClockType;
 };
 

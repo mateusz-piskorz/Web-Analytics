@@ -37,15 +37,13 @@ export const Dashboard: FC<DashboardProps> = async ({
 
   const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
 
-  const newVisitors = countActivity(period, newestAnalytic);
-
   return (
     <>
       <ActivityGraph
         visitors={newestAnalytic.length}
         visitorsOnePeriodAgo={analyticOnePeriodAgo.length}
-        data={newVisitors}
-        clockType={isHour ? "hours" : "days"}
+        data={newestAnalytic}
+        period={period}
       />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countries} />
