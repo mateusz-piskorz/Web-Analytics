@@ -1,22 +1,28 @@
 "use client";
-import React, { FC, useContext, ReactNode, useState } from "react";
+import React, { FC, useContext, ReactNode, useState, useEffect } from "react";
+import { countEvents } from "../_features/EventList/utils";
 
 type ContextType = {
-  data: ContextData;
   filteredData: {
     id: string;
     createdAt: Date;
     eventName: string;
     name: string;
   }[];
-  filter: Filter;
-  setFilter: (d: any) => void;
+  data: {
+    name: string;
+    labels: {
+      name: string;
+      eventName: string;
+      value: number;
+    }[];
+  }[];
+  currentEvent: string;
+  toggleEvent: (eventName: string) => void;
+  labelsFilter: string[];
+  toggleLabelFilter: (label: string) => void;
 };
 
-type Filter = {
-  name: string[];
-  eventName: string;
-};
 type ContextData = {
   name: string;
   labels: {
@@ -42,28 +48,53 @@ export const EventsProvider: FC<{
   children?: ReactNode;
   EventsArr: ContextData;
 }> = ({ children, EventsArr }) => {
-  const [filter, setFilter] = useState({
-    name: [EventsArr[0].labels[0].name],
-    eventName: EventsArr[0].labels[0].eventName,
+  const newData = EventsArr.map((e) => {
+    return { name: e.name, labels: countEvents(e.labels) };
   });
+  const [currentEvent, setCurrentEvent] = useState(newData[0].name);
+  const [labelsFilter, setLabelsFilter] = useState(
+    newData[0].labels.map((e) => e.name)
+  );
 
-  const event = EventsArr.find((e) => e.name === filter.eventName) || {
+  const toggleEvent = (eventName: string) => {
+    if (currentEvent === eventName) {
+      setCurrentEvent("");
+      setLabelsFilter([]);
+    } else {
+      setCurrentEvent(eventName);
+      setLabelsFilter(
+        newData.find((e) => e.name === eventName)!.labels.map((e) => e.name)
+      );
+    }
+  };
+
+  const toggleLabelFilter = (label: string) => {
+    const labelInFilter = labelsFilter.find((e) => e === label);
+    if (labelInFilter) {
+      setLabelsFilter((prev) => prev.filter((e) => e !== label));
+      labelsFilter.length === 1 && setCurrentEvent("");
+    } else {
+      setLabelsFilter((prev) => [...prev, label]);
+    }
+  };
+
+  const currentEventData = EventsArr.find((e) => e.name === currentEvent) || {
     labels: [],
   };
 
-  const filteredData = event.labels.filter((event) =>
-    filter.name.includes(event.name)
+  const filteredData = currentEventData.labels.filter(({ name }) =>
+    labelsFilter.includes(name)
   );
-
-  console.log(filter);
 
   return (
     <Context.Provider
       value={{
-        filter,
-        setFilter,
-        data: EventsArr,
+        toggleEvent,
+        currentEvent,
         filteredData,
+        labelsFilter,
+        toggleLabelFilter,
+        data: newData,
       }}
     >
       {children}

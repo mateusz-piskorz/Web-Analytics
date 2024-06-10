@@ -29,7 +29,6 @@ export async function POST(request: NextRequest) {
     const newEventLabel = await db.eventLabel.create({
       data: { name: label, eventName },
     });
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
 
     return sendResponse(200, { newEventLabel });
   } catch (error: any) {
