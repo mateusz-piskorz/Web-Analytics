@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import styles from "./ListContainer.module.scss";
 import { Header, HeaderProps, HeaderPlaceholder } from "./components/Header";
-import { ItemList } from "@/src/features/ItemList";
+import { ListItem } from "../ListItem";
 
 type ListContainerProps = HeaderProps & {
   children?: ReactNode;
@@ -35,7 +35,7 @@ export const BoxContainerPlaceholder: FC = ({}) => {
   return (
     <div className={styles.Container}>
       <HeaderPlaceholder />
-      <ItemList lightBg list={fakeList} />
+      <div>Hi</div>
     </div>
   );
 };

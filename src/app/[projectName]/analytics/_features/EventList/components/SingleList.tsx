@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { countEvents } from "../utils";
 import { useEvents } from "../../../_context";
-import { ListItem } from "@/src/features/ItemList/components/ListItem";
+import { ListItem } from "@/src/features/ListItem";
 import style from "./SingleList.module.scss";
 
 type SingleListProps = {

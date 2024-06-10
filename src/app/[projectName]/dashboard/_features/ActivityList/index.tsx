@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { BoxContainer } from "@/src/features/BoxContainer";
-import { ItemList, Item } from "@/src/features/ItemList";
+import { ListItem, Item } from "@/src/features/ListItem";
 import style from "./ActivityList.module.scss";
 
 type ActivityListProps = {
@@ -11,7 +11,9 @@ type ActivityListProps = {
 export const ActivityList: FC<ActivityListProps> = ({ list, title }) => {
   return (
     <BoxContainer title={title} extraClassName={style.EventBoxContainer}>
-      <ItemList list={list} />
+      {list.map((item, index) => (
+        <ListItem key={index} {...item} />
+      ))}
     </BoxContainer>
   );
 };

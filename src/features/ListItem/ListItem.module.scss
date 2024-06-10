@@ -11,7 +11,11 @@
   font-size: 1.2rem;
   height: 45px;
   width: 100%;
-  cursor: pointer;
+
+  &_Button {
+    cursor: pointer;
+    border: none;
+  }
 
   &__nested {
     width: 90%;
