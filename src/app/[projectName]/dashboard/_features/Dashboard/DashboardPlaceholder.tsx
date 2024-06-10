@@ -5,7 +5,7 @@ import style from "./styles.module.scss";
 export const DashboardPlaceholder: FC = () => {
   return (
     <>
-      <BoxContainerPlaceholder chartCase />
+      <BoxContainerPlaceholder />
       <div className={style.ActivityListContainer}>
         <BoxContainerPlaceholder />
         <BoxContainerPlaceholder />

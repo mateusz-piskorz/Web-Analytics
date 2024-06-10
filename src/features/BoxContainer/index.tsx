@@ -5,43 +5,37 @@ import { ItemList } from "@/src/features/ItemList";
 
 type ListContainerProps = HeaderProps & {
   children?: ReactNode;
-  h400desktop?: boolean;
-  placeholder?: boolean;
+  extraClassName?: string;
 };
 
 export const BoxContainer: FC<ListContainerProps> = ({
   children,
-  h400desktop,
+  extraClassName,
   ...headerProps
 }) => {
-  const bodyClassName = `${styles.Container_Body}${
-    h400desktop ? " " + styles.Container_Body__increaseHeight : ""
-  }`;
-
+  // console.log(extraClassName);
   return (
-    <div className={styles.Container}>
+    <div
+      className={`${styles.Container}${
+        extraClassName ? " " + extraClassName : ""
+      }`}
+    >
       <Header {...headerProps} />
-      <div className={bodyClassName}>{children}</div>
+      {children}
     </div>
   );
 };
 
-export const BoxContainerPlaceholder: FC<{ h400desktop?: boolean }> = ({
-  h400desktop,
-}) => {
+export const BoxContainerPlaceholder: FC = ({}) => {
   const fakeList = Array.from(Array(14)).map((e) => ({
     name: "",
     quantity: "",
   }));
-  const bodyClassName = `${styles.Container_Body}${
-    h400desktop ? " " + styles.Container_Body__increaseHeight : ""
-  }`;
+
   return (
     <div className={styles.Container}>
       <HeaderPlaceholder />
-      <div className={bodyClassName}>
-        <ItemList lightBg list={fakeList} />
-      </div>
+      <ItemList lightBg list={fakeList} />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { getEventsGtePeriod } from "@/src/db//data-access/event";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { countEvents } from "./utils";
 import { EventsProvider } from "../../_context";
+import { ChartWrapper } from "../ChartWrapper";
 
 type AnalyticsProps = {
   params: { projectName: string };
@@ -27,14 +28,9 @@ export const Analytics: FC<AnalyticsProps> = async ({
   return (
     <>
       <EventsProvider EventsArr={events}>
+        <ChartWrapper />
         <EventList title="events" />
       </EventsProvider>
-      {/* <ActivityGraph
-        visitors={newestAnalytic.length}
-        visitorsOnePeriodAgo={analyticOnePeriodAgo.length}
-        data={newVisitors}
-        clockType={isHour ? "hours" : "days"}
-      /> */}
     </>
   );
 };
