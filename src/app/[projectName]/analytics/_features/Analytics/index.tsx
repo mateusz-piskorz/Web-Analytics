@@ -8,6 +8,7 @@ import { getProject } from "@/src/db//data-access/project";
 import { getEventsGtePeriod } from "@/src/db//data-access/event";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { countEvents } from "./utils";
+import { EventsProvider } from "../../_context";
 
 type AnalyticsProps = {
   params: { projectName: string };
@@ -22,18 +23,18 @@ export const Analytics: FC<AnalyticsProps> = async ({
   const period: Period = analyticPeriod as Period;
 
   const events = await getEventsGtePeriod(projectName, PERIODS_AGO[period][0]);
-  console.log("events");
-  console.log(events[1]);
 
   return (
     <>
+      <EventsProvider EventsArr={events}>
+        <EventList title="events" />
+      </EventsProvider>
       {/* <ActivityGraph
         visitors={newestAnalytic.length}
         visitorsOnePeriodAgo={analyticOnePeriodAgo.length}
         data={newVisitors}
         clockType={isHour ? "hours" : "days"}
       /> */}
-      <EventList list={events} title="events" />
     </>
   );
 };

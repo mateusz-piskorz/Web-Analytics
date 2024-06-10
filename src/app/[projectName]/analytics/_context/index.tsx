@@ -1,6 +1,25 @@
-import React, { FC, useContext, ReactNode, useEffect } from "react";
-import { Event } from "@prisma/client";
-type ContextType = any;
+"use client";
+import React, { FC, useContext, ReactNode, useState } from "react";
+
+type ContextType = {
+  data: ContextData;
+  filter: Filter;
+  setFilter: (d: any) => void;
+};
+
+type Filter = {
+  name: string[];
+  eventName: string;
+};
+type ContextData = {
+  name: string;
+  labels: {
+    id: string;
+    createdAt: Date;
+    eventName: string;
+    name: string;
+  }[];
+}[];
 
 const Context = React.createContext<ContextType | null>(null);
 
@@ -15,12 +34,31 @@ export const useEvents = () => {
 
 export const EventsProvider: FC<{
   children?: ReactNode;
-  EventsArr: Event[];
-}> = ({ children }) => {
+  EventsArr: ContextData;
+}> = ({ children, EventsArr }) => {
+  const [filter, setFilter] = useState({
+    name: [EventsArr[0].labels[0].name],
+    eventName: EventsArr[0].labels[0].eventName,
+  });
+
+  // console.log("filter.eventName");
+  // console.log(filter.eventName);
+  // console.log("EventsArr");
+  const event = EventsArr.find((e) => e.name === filter.eventName);
+  if (!event) throw new Error("event not found");
+
+  const data = event.labels.filter((event) => {
+    filter.name.includes(event.name);
+  });
+
+  // console.log(data);
+
   return (
     <Context.Provider
       value={{
-        comments: "data",
+        filter,
+        setFilter,
+        data: EventsArr,
       }}
     >
       {children}

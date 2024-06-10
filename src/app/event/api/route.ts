@@ -3,11 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
-export async function DELETE(request: NextRequest) {
-  await db.event.deleteMany({});
-  return new Response("success", { status: 200 });
-}
-
 export async function POST(request: NextRequest) {
   //   const origin = request.headers.get("origin");
   //   const isCorsDisabled = allowedOrigins === undefined;
@@ -19,25 +14,24 @@ export async function POST(request: NextRequest) {
   //   }
 
   try {
-    const {
-      projectName,
-      category = "unknown",
-      label = "unknown",
-    } = await request.json();
-
+    const { projectName, eventName, label } = await request.json();
     const project = await db.project.findUnique({
       where: { name: projectName },
     });
 
     if (!project) return sendResponse(404, { message: "project not found" });
+    const event = await db.event.findUnique({ where: { name: eventName } });
 
-    // const event = await db.event.findUnique
+    if (!event) {
+      await db.event.create({ data: { name: eventName, projectName } });
+    }
 
-    // const event = await db.event.create({
-    //   data: { category, label, projectId: project.id },
-    // });
+    const newEventLabel = await db.eventLabel.create({
+      data: { name: label, eventName },
+    });
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
 
-    return sendResponse(200, { event });
+    return sendResponse(200, { newEventLabel });
   } catch (error: any) {
     return sendResponse(400, { message: error.message });
   }
