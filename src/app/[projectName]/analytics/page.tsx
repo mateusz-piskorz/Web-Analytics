@@ -1,18 +1,50 @@
 import React, { FC, Suspense } from "react";
-import { Analytics } from "./_features/Analytics";
+import { PERIODS_AGO } from "@/src/constants";
+import { Period } from "@/src/types";
+import { EventList } from "./_features/EventList";
+import { getEventsGtePeriod } from "@/src/db//data-access/event";
+import { EventsProvider } from "./_context";
+import { ChartWrapper } from "./_features/ChartWrapper";
+
 type DashboardProps = {
   params: { projectName: string };
   searchParams: { analyticPeriod: string | undefined };
 };
 
+type AnalyticsProps = {
+  params: { projectName: string };
+  analyticPeriod: Period;
+};
+
 const AnalyicsPage: FC<DashboardProps> = async ({
   params,
-  searchParams: { analyticPeriod = "7" },
+  searchParams: { analyticPeriod },
 }) => {
+  if (!PERIODS_AGO[analyticPeriod as Period]) {
+    analyticPeriod = "7";
+  }
+
   return (
     <Suspense key={analyticPeriod} fallback={<h1>Loading...</h1>}>
-      <Analytics params={params} analyticPeriod={analyticPeriod} />
+      <Analytics params={params} analyticPeriod={analyticPeriod as Period} />
     </Suspense>
+  );
+};
+
+const Analytics: FC<AnalyticsProps> = async ({
+  analyticPeriod,
+  params: { projectName },
+}) => {
+  const events = await getEventsGtePeriod(
+    projectName,
+    PERIODS_AGO[analyticPeriod][0]
+  );
+
+  return (
+    <EventsProvider EventsArr={events}>
+      <ChartWrapper />
+      <EventList title="events" />
+    </EventsProvider>
   );
 };
 

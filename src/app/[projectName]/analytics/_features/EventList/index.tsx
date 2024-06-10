@@ -3,7 +3,7 @@ import { FC } from "react";
 import { BoxContainer } from "@/src/features/BoxContainer";
 import style from "./EventList.module.scss";
 import { ListItem } from "@/src/features/ItemList/components/ListItem";
-import { countEvents } from "../Analytics/utils";
+import { countEvents } from "./utils";
 import { useEvents } from "../../_context";
 
 type EventListProps = {
