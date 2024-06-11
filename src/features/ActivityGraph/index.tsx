@@ -25,7 +25,7 @@ export const ActivityGraph: FC<ActivityGraphProps> = ({
   const countedData = countActivity(period, data);
 
   return (
-    <BoxContainer title="Visitors" chartCase={{ value: total, percentage }}>
+    <BoxContainer title="Total" chartCase={{ value: total, percentage }}>
       <div className={styles.Wrapper_ChartContainer}>
         <Chart data={countedData} clockType={clockType} />
       </div>
