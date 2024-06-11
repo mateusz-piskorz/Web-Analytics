@@ -10,10 +10,12 @@ type ActivityListProps = {
 
 export const ActivityList: FC<ActivityListProps> = ({ list, title }) => {
   return (
-    <BoxContainer title={title} extraClassName={style.EventBoxContainer}>
-      {list.map((item, index) => (
-        <ListItem key={index} {...item} />
-      ))}
+    <BoxContainer title={title} extraClassName={style.__flex1}>
+      <div className={style.List}>
+        {list.map((item, index) => (
+          <ListItem key={index} {...item} />
+        ))}
+      </div>
     </BoxContainer>
   );
 };
