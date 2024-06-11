@@ -1,11 +1,6 @@
-type EventLabel = {
-  id: string;
-  createdAt: Date;
-  eventName: string;
-  name: string;
-};
+import { EventWithLabels } from "@/src/db/data-access/event";
 
-export const countEvents = (array: EventLabel[]) => {
+export const countEvents = (array: EventWithLabels["labels"]) => {
   const data = array.reduce((acc, item) => {
     const { name, eventName } = item;
 
@@ -21,3 +16,5 @@ export const countEvents = (array: EventLabel[]) => {
 
   return data;
 };
+
+export type CountedEvents = ReturnType<typeof countEvents>;

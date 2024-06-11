@@ -1,37 +1,19 @@
 "use client";
-import React, { FC, useContext, ReactNode, useState, useEffect } from "react";
-import { countEvents } from "../_features/EventList/utils";
+import React, { FC, useContext, ReactNode, useState } from "react";
+import { countEvents, CountedEvents } from "../_features/EventList/utils";
+import { EventWithLabels } from "@/src/db/data-access/event";
 
 type ContextType = {
-  filteredData: {
-    id: string;
-    createdAt: Date;
-    eventName: string;
-    name: string;
-  }[];
+  filteredData: EventWithLabels["labels"];
   data: {
     name: string;
-    labels: {
-      name: string;
-      eventName: string;
-      value: number;
-    }[];
+    labels: CountedEvents;
   }[];
   currentEvent: string;
   toggleEvent: (eventName: string) => void;
-  labelsFilter: string[];
-  toggleLabelFilter: (label: string) => void;
+  filter: string[];
+  toggleFilter: (label: string) => void;
 };
-
-type ContextData = {
-  name: string;
-  labels: {
-    id: string;
-    createdAt: Date;
-    eventName: string;
-    name: string;
-  }[];
-}[];
 
 const Context = React.createContext<ContextType | null>(null);
 
@@ -46,35 +28,33 @@ export const useEvents = () => {
 
 export const EventsProvider: FC<{
   children?: ReactNode;
-  EventsArr: ContextData;
+  EventsArr: EventWithLabels[];
 }> = ({ children, EventsArr }) => {
   const newData = EventsArr.map((e) => {
     return { name: e.name, labels: countEvents(e.labels) };
   });
   const [currentEvent, setCurrentEvent] = useState(newData[0].name);
-  const [labelsFilter, setLabelsFilter] = useState(
-    newData[0].labels.map((e) => e.name)
-  );
+  const [filter, setFilter] = useState(newData[0].labels.map((e) => e.name));
 
   const toggleEvent = (eventName: string) => {
     if (currentEvent === eventName) {
       setCurrentEvent("");
-      setLabelsFilter([]);
+      setFilter([]);
     } else {
       setCurrentEvent(eventName);
-      setLabelsFilter(
+      setFilter(
         newData.find((e) => e.name === eventName)!.labels.map((e) => e.name)
       );
     }
   };
 
-  const toggleLabelFilter = (label: string) => {
-    const labelInFilter = labelsFilter.find((e) => e === label);
+  const toggleFilter = (label: string) => {
+    const labelInFilter = filter.find((e) => e === label);
     if (labelInFilter) {
-      setLabelsFilter((prev) => prev.filter((e) => e !== label));
-      labelsFilter.length === 1 && setCurrentEvent("");
+      setFilter((prev) => prev.filter((e) => e !== label));
+      filter.length === 1 && setCurrentEvent("");
     } else {
-      setLabelsFilter((prev) => [...prev, label]);
+      setFilter((prev) => [...prev, label]);
     }
   };
 
@@ -83,7 +63,7 @@ export const EventsProvider: FC<{
   };
 
   const filteredData = currentEventData.labels.filter(({ name }) =>
-    labelsFilter.includes(name)
+    filter.includes(name)
   );
 
   return (
@@ -92,8 +72,8 @@ export const EventsProvider: FC<{
         toggleEvent,
         currentEvent,
         filteredData,
-        labelsFilter,
-        toggleLabelFilter,
+        filter,
+        toggleFilter,
         data: newData,
       }}
     >

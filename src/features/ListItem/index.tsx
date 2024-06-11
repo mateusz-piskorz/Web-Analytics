@@ -1,7 +1,7 @@
 import { FC } from "react";
 import style from "./ListItem.module.scss";
 
-export const ListItem: FC<Item> = ({ onClick, name, quantity, lightBg }) => {
+export const ListItem: FC<Item> = ({ onClick, name, value, lightBg }) => {
   const className = `${style.ListItem}${
     lightBg ? " " + style.ListItem__lightBg : ""
   }`;
@@ -13,7 +13,7 @@ export const ListItem: FC<Item> = ({ onClick, name, quantity, lightBg }) => {
         className={`${className} ${style.ListItem_Button}`}
       >
         <span>{name}</span>
-        <span>{quantity}</span>
+        <span>{value}</span>
       </button>
     );
   }
@@ -21,14 +21,14 @@ export const ListItem: FC<Item> = ({ onClick, name, quantity, lightBg }) => {
   return (
     <div className={className}>
       <span>{name}</span>
-      <span>{quantity}</span>
+      <span>{value}</span>
     </div>
   );
 };
 
 export type Item = {
   name: string;
-  quantity: number;
+  value: number;
   lightBg?: boolean;
   onClick?: () => void;
 };

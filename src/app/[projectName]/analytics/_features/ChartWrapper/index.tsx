@@ -10,6 +10,7 @@ export const ChartWrapper = () => {
   const searchParams = useSearchParams();
   const period = (searchParams.get("analyticPeriod")?.toString() ||
     "7") as Period;
+
   return (
     <ActivityGraph
       visitors={10}

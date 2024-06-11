@@ -3,7 +3,7 @@ import { FC } from "react";
 import { BoxContainer } from "@/src/features/BoxContainer";
 import style from "./EventList.module.scss";
 import { useEvents } from "../../_context";
-import { SingleList } from "./components/SingleList";
+import { Event } from "./components/Event";
 
 type EventListProps = {
   title: string;
@@ -11,12 +11,12 @@ type EventListProps = {
 
 export const EventList: FC<EventListProps> = ({ title }) => {
   const { data } = useEvents();
-  console.log(data);
+
   return (
     <BoxContainer title={title}>
-      <div className={style.Wrapper}>
+      <div className={style.List}>
         {data.map((event, index) => {
-          return <SingleList event={event} key={index} />;
+          return <Event event={event} key={index} />;
         })}
       </div>
     </BoxContainer>
