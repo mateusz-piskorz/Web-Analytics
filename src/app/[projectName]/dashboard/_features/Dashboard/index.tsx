@@ -21,18 +21,22 @@ export const Dashboard: FC<DashboardProps> = async ({
 
   const { activity } = await getActivityGtePeriod(
     projectName,
-    PERIODS_AGO[period][0]
+    PERIODS_AGO[period][1]
   );
 
-  const myLastIndex = activity.findIndex(
+  const firstIndexOfPreviousPeriod = activity.findIndex(
     (e) => e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
   );
 
   const newestAnalytic =
-    myLastIndex === -1 ? activity : activity.slice(0, myLastIndex);
+    firstIndexOfPreviousPeriod === -1
+      ? activity
+      : activity.slice(0, firstIndexOfPreviousPeriod);
 
   const analyticOnePeriodAgo =
-    myLastIndex === -1 ? [] : activity.slice(myLastIndex);
+    firstIndexOfPreviousPeriod === -1
+      ? []
+      : activity.slice(firstIndexOfPreviousPeriod);
 
   const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
 
