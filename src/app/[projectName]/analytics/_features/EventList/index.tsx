@@ -15,11 +15,9 @@ export const EventList: FC<EventListProps> = ({ title }) => {
   return (
     <BoxContainer title={title}>
       <div className={style.Wrapper}>
-        <div className={style.Wrapper_Wrapper2}>
-          {data.map((event, index) => {
-            return <SingleList event={event} key={index} />;
-          })}
-        </div>
+        {data.map((event, index) => {
+          return <SingleList event={event} key={index} />;
+        })}
       </div>
     </BoxContainer>
   );
