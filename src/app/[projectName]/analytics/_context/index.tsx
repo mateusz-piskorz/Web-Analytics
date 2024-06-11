@@ -39,8 +39,10 @@ export const EventsProvider: FC<{
       labels: countEvents(e.labels),
     };
   });
-  const [currentEvent, setCurrentEvent] = useState(newData[0].name);
-  const [filter, setFilter] = useState(newData[0].labels.map((e) => e.name));
+  const [currentEvent, setCurrentEvent] = useState(newData[0]?.name || "");
+  const [filter, setFilter] = useState(
+    newData[0]?.labels.map((e) => e.name) || []
+  );
 
   const toggleEvent = (eventName: string) => {
     if (currentEvent === eventName) {
