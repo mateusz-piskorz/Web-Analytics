@@ -1,28 +1,3 @@
-import { Period } from "@/src/types";
-import { oneDay, oneHour } from "@/src/constants";
-import { Activity } from "@prisma/client";
-
-export const countActivity = (arrayType: Period, activityArray: Activity[]) => {
-  const array = generateActivityArr(arrayType);
-  const isHour = arrayType === "24";
-  return array.map((item) => {
-    let visitors = 0;
-    const divider = isHour ? oneHour : oneDay;
-    const { x } = item;
-    const time = x.getTime();
-    const min = time - divider / 2;
-    const max = time + divider / 2 + 1;
-    activityArray.forEach((activityItem) => {
-      const analyticTime = activityItem.createdAt.getTime();
-      if (analyticTime > min && analyticTime < max) {
-        visitors++;
-      }
-    });
-
-    return { x, y: visitors };
-  });
-};
-
 export const countAnalytics = (array: any[]) => {
   const { countries, browsers, OSs } = array.reduce(
     (acc, item) => {
@@ -48,16 +23,6 @@ export const countAnalytics = (array: any[]) => {
 const objToArray = (obj: any) => {
   return Object.entries(obj).map(([name, quantity]) => ({
     name,
-    quantity: quantity as number,
+    value: quantity as number,
   }));
-};
-
-const generateActivityArr = (arrayType: Period) => {
-  const timeXOne = arrayType === "24" ? oneHour : oneDay;
-  return Array.from(Array(+arrayType)).map((_, index) => {
-    const newDate = new Date(new Date().getTime() - timeXOne * index);
-    newDate.setMinutes(newDate.getMinutes() + 30);
-    newDate.setMinutes(0);
-    return { x: newDate, y: 0 };
-  });
 };

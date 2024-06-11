@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Chart } from "./components/Chart";
 import styles from "./styles.module.scss";
-import { ClockType, GraphData } from "./types";
+import { GraphData } from "./types";
 import { BoxContainer } from "@/src/features/BoxContainer";
 import { countActivity } from "./utils";
 import { Period } from "@/src/types";
@@ -25,10 +25,10 @@ export const ActivityGraph: FC<ActivityGraphProps> = ({
   const percentage = ((newValue - valueBefore) / 1) * 100;
   const clockType = period === "24" ? "hours" : "days";
   const countedData = countActivity(period, data);
+
   return (
     <BoxContainer
       title="Visitors"
-      h400desktop
       visitorsCase={{ value: visitors, percentage }}
     >
       <div className={styles.Wrapper_ChartContainer}>

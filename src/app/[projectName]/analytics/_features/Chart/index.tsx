@@ -5,7 +5,7 @@ import { useEvents } from "../../_context";
 import { useSearchParams } from "next/navigation";
 import { Period } from "@/src/types";
 
-export const ChartWrapper = () => {
+export const Chart = () => {
   const { filteredData } = useEvents();
   const searchParams = useSearchParams();
   const period = (searchParams.get("analyticPeriod")?.toString() ||

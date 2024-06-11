@@ -13,7 +13,6 @@ export const BoxContainer: FC<ListContainerProps> = ({
   extraClassName,
   ...headerProps
 }) => {
-  // console.log(extraClassName);
   return (
     <div
       className={`${styles.Container}${

@@ -19,7 +19,7 @@ type ChartProps = {
 };
 
 export const Chart: FC<ChartProps> = ({ data, clockType }) => {
-  const xValues = useCallback(() => data.map((e) => e.x), [data, clockType])();
+  const xValues = useCallback(() => data.map((e) => e.x), [data])();
 
   const [ref, bounds] = useMeasure();
   const width = bounds.width;
@@ -76,7 +76,7 @@ export const Chart: FC<ChartProps> = ({ data, clockType }) => {
         tooltipTop: yScale(d7?.y || 0),
       });
     },
-    [showTooltip, yScale, xScale]
+    [showTooltip, yScale, xScale, clockType, data]
   );
 
   return (

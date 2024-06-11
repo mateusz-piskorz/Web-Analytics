@@ -4,7 +4,7 @@ import { Period } from "@/src/types";
 import { EventList } from "./_features/EventList";
 import { getEventsGtePeriod } from "@/src/db//data-access/event";
 import { EventsProvider } from "./_context";
-import { ChartWrapper } from "./_features/ChartWrapper";
+import { Chart } from "./_features/Chart";
 
 type DashboardProps = {
   params: { projectName: string };
@@ -42,7 +42,7 @@ const Analytics: FC<AnalyticsProps> = async ({
 
   return (
     <EventsProvider EventsArr={events}>
-      <ChartWrapper />
+      <Chart />
       <EventList title="events" />
     </EventsProvider>
   );

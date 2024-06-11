@@ -3,7 +3,7 @@ import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "../../_features/ActivityList";
 import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
-import { countAnalytics, countActivity } from "./utils";
+import { countAnalytics } from "./utils";
 import style from "./styles.module.scss";
 import { getActivityGtePeriod } from "@/src/db/data-access/activity";
 
@@ -18,7 +18,6 @@ export const Dashboard: FC<DashboardProps> = async ({
 }) => {
   if (!PERIODS_AGO[analyticPeriod as Period]) analyticPeriod = "7";
   const period: Period = analyticPeriod as Period;
-  const isHour = period === "24";
 
   const { activity } = await getActivityGtePeriod(
     projectName,
