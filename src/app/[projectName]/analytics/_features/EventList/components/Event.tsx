@@ -2,19 +2,15 @@ import React, { FC } from "react";
 import { useEvents } from "../../../_context";
 import { ListItem } from "@/src/features/ListItem";
 import style from "./Event.module.scss";
+import { Data } from "../../../_context";
 
 type SingleListProps = {
-  event: {
-    name: string;
-    labels: {
-      name: string;
-      eventName: string;
-      value: number;
-    }[];
-  };
+  event: Data;
 };
 
-export const Event: FC<SingleListProps> = ({ event: { name, labels } }) => {
+export const Event: FC<SingleListProps> = ({
+  event: { name, total, labels },
+}) => {
   const { currentEvent, toggleEvent, filter, toggleFilter } = useEvents();
   const isSelected = currentEvent === name;
 
@@ -24,7 +20,7 @@ export const Event: FC<SingleListProps> = ({ event: { name, labels } }) => {
         onClick={() => toggleEvent(name)}
         lightBg={isSelected}
         name={name}
-        value={labels.length}
+        value={total}
       />
       {isSelected && (
         <div className={`${style.EventList} ${style.EventList__nested}`}>

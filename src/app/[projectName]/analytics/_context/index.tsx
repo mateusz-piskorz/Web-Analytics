@@ -1,14 +1,16 @@
 "use client";
 import React, { FC, useContext, ReactNode, useState } from "react";
-import { countEvents, CountedEvents } from "../_features/EventList/utils";
+import { countEvents, CountedEvents } from "./utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
 
+export type Data = {
+  name: string;
+  total: number;
+  labels: CountedEvents;
+};
 type ContextType = {
   filteredData: EventWithLabels["labels"];
-  data: {
-    name: string;
-    labels: CountedEvents;
-  }[];
+  data: Data[];
   currentEvent: string;
   toggleEvent: (eventName: string) => void;
   filter: string[];
@@ -31,7 +33,11 @@ export const EventsProvider: FC<{
   EventsArr: EventWithLabels[];
 }> = ({ children, EventsArr }) => {
   const newData = EventsArr.map((e) => {
-    return { name: e.name, labels: countEvents(e.labels) };
+    return {
+      name: e.name,
+      total: e.labels.length,
+      labels: countEvents(e.labels),
+    };
   });
   const [currentEvent, setCurrentEvent] = useState(newData[0].name);
   const [filter, setFilter] = useState(newData[0].labels.map((e) => e.name));
