@@ -33,21 +33,11 @@ export const Dashboard: FC<DashboardProps> = async ({
       ? activity
       : activity.slice(0, firstIndexOfPreviousPeriod);
 
-  const analyticOnePeriodAgo =
-    firstIndexOfPreviousPeriod === -1
-      ? []
-      : activity.slice(firstIndexOfPreviousPeriod);
-
   const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
 
   return (
     <>
-      <ActivityGraph
-        visitors={newestAnalytic.length}
-        visitorsOnePeriodAgo={analyticOnePeriodAgo.length}
-        data={newestAnalytic}
-        period={period}
-      />
+      <ActivityGraph data={activity} period={period} />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countries} />
         <ActivityList title="Browsers" list={browsers} />

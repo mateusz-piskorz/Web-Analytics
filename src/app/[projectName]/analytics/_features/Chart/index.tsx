@@ -11,12 +11,5 @@ export const Chart = () => {
   const period = (searchParams.get("analyticPeriod")?.toString() ||
     "7") as Period;
 
-  return (
-    <ActivityGraph
-      visitors={10}
-      visitorsOnePeriodAgo={20}
-      data={filteredData}
-      period={period}
-    />
-  );
+  return <ActivityGraph data={filteredData} period={period} />;
 };

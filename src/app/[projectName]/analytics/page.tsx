@@ -40,9 +40,13 @@ const Analytics: FC<AnalyticsProps> = async ({
     PERIODS_AGO[analyticPeriod][0]
   );
 
-  // const firstIndexOfPreviousPeriod = events.findIndex(
-  //   (e) =>  e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
-  // );
+  events.map((e) => e.labels);
+
+  const myArr = [
+    { name: "label1", eventName: "event1" },
+    { name: "label2", eventName: "event1" },
+    { name: "label3", eventName: "event2" },
+  ];
 
   return (
     <EventsProvider eventsArr={events}>
