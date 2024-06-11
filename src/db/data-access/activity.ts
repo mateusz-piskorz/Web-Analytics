@@ -9,7 +9,6 @@ export const getActivityGtePeriod = async (
     where: {
       name: projectName,
     },
-
     include: {
       activity: {
         where: { createdAt: { gte: period } },

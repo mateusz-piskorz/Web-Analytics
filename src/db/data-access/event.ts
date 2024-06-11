@@ -12,7 +12,10 @@ export const getEventsGtePeriod = async (projectName: string, period: Date) => {
       projectName,
     },
     include: {
-      labels: { where: { createdAt: { gte: period } } },
+      labels: {
+        where: { createdAt: { gte: period } },
+        orderBy: { createdAt: "desc" },
+      },
     },
   });
 

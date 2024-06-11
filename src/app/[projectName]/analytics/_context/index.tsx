@@ -30,18 +30,28 @@ export const useEvents = () => {
 
 export const EventsProvider: FC<{
   children?: ReactNode;
-  EventsArr: EventWithLabels[];
-}> = ({ children, EventsArr }) => {
-  const newData = EventsArr.map((e) => {
+  eventsArr: EventWithLabels[];
+}> = ({ children, eventsArr }) => {
+  const defaultEvent = eventsArr.find((e) => e.labels.length > 0);
+  const [currentEvent, setCurrentEvent] = useState(defaultEvent?.name || "");
+  const [filter, setFilter] = useState(
+    defaultEvent?.labels.map((e) => e.name) || []
+  );
+
+  const data = eventsArr.map((e) => {
     return {
       name: e.name,
       total: e.labels.length,
       labels: countEvents(e.labels),
     };
   });
-  const [currentEvent, setCurrentEvent] = useState(newData[0]?.name || "");
-  const [filter, setFilter] = useState(
-    newData[0]?.labels.map((e) => e.name) || []
+
+  const currentEventData = eventsArr.find((e) => e.name === currentEvent) || {
+    labels: [],
+  };
+
+  const filteredData = currentEventData.labels.filter(({ name }) =>
+    filter.includes(name)
   );
 
   const toggleEvent = (eventName: string) => {
@@ -51,7 +61,7 @@ export const EventsProvider: FC<{
     } else {
       setCurrentEvent(eventName);
       setFilter(
-        newData.find((e) => e.name === eventName)!.labels.map((e) => e.name)
+        data.find((e) => e.name === eventName)!.labels.map((e) => e.name)
       );
     }
   };
@@ -66,14 +76,6 @@ export const EventsProvider: FC<{
     }
   };
 
-  const currentEventData = EventsArr.find((e) => e.name === currentEvent) || {
-    labels: [],
-  };
-
-  const filteredData = currentEventData.labels.filter(({ name }) =>
-    filter.includes(name)
-  );
-
   return (
     <Context.Provider
       value={{
@@ -82,7 +84,7 @@ export const EventsProvider: FC<{
         filteredData,
         filter,
         toggleFilter,
-        data: newData,
+        data,
       }}
     >
       {children}

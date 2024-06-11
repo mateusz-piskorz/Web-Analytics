@@ -40,8 +40,12 @@ const Analytics: FC<AnalyticsProps> = async ({
     PERIODS_AGO[analyticPeriod][0]
   );
 
+  // const firstIndexOfPreviousPeriod = events.findIndex(
+  //   (e) =>  e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
+  // );
+
   return (
-    <EventsProvider EventsArr={events}>
+    <EventsProvider eventsArr={events}>
       <Chart />
       <EventList title="events" />
     </EventsProvider>

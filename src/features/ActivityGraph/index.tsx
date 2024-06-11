@@ -25,6 +25,8 @@ export const ActivityGraph: FC<ActivityGraphProps> = ({
   const percentage = ((newValue - valueBefore) / 1) * 100;
   const clockType = period === "24" ? "hours" : "days";
   const countedData = countActivity(period, data);
+  console.log(data);
+  console.log(countedData);
 
   return (
     <BoxContainer
