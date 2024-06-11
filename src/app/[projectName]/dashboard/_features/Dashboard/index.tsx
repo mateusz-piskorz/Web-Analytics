@@ -6,6 +6,7 @@ import { Period } from "@/src/types";
 import { countAnalytics } from "./utils";
 import style from "./styles.module.scss";
 import { getActivityGtePeriod } from "@/src/db/data-access/activity";
+import { splitDataByDate } from "@/src/utils";
 
 type DashboardProps = {
   params: { projectName: string };
@@ -24,20 +25,21 @@ export const Dashboard: FC<DashboardProps> = async ({
     PERIODS_AGO[period][1]
   );
 
-  const firstIndexOfPreviousPeriod = activity.findIndex(
-    (e) => e.createdAt.getTime() < PERIODS_AGO[period][0].getTime()
+  const { newestData, dataOnePeriodAgo } = splitDataByDate(
+    activity,
+    PERIODS_AGO[period][0]
   );
 
-  const newestAnalytic =
-    firstIndexOfPreviousPeriod === -1
-      ? activity
-      : activity.slice(0, firstIndexOfPreviousPeriod);
-
-  const { countries, browsers, OSs } = countAnalytics(newestAnalytic);
+  const { countries, browsers, OSs } = countAnalytics(newestData);
 
   return (
     <>
-      <ActivityGraph data={activity} period={period} />
+      <ActivityGraph
+        data={newestData}
+        period={period}
+        total={newestData.length}
+        totalPeriodAgo={dataOnePeriodAgo.length}
+      />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countries} />
         <ActivityList title="Browsers" list={browsers} />

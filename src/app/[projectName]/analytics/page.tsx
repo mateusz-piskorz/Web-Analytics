@@ -37,16 +37,8 @@ const Analytics: FC<AnalyticsProps> = async ({
 }) => {
   const events = await getEventsGtePeriod(
     projectName,
-    PERIODS_AGO[analyticPeriod][0]
+    PERIODS_AGO[analyticPeriod][1]
   );
-
-  events.map((e) => e.labels);
-
-  const myArr = [
-    { name: "label1", eventName: "event1" },
-    { name: "label2", eventName: "event1" },
-    { name: "label3", eventName: "event2" },
-  ];
 
   return (
     <EventsProvider eventsArr={events}>
