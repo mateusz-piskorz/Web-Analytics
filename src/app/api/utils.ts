@@ -1,3 +1,28 @@
+import data from "moment-timezone/data/meta/latest.json";
+const { countries, zones } = data;
+
+export const sendResponse = (status: number, message: any) => {
+  return new Response(JSON.stringify(message), {
+    status: status,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    },
+  });
+};
+
+export const getCountryObj = () => {
+  type CountryObj = { [key in keyof typeof zones]: string };
+  let countryObj: CountryObj = {} as CountryObj;
+  Object.values(zones).forEach((value) => {
+    const { name } = value;
+    // @ts-ignore
+    countryObj[name] = countries[value.countries[0]].name;
+  });
+
+  return countryObj;
+};
+
 export const getBrowser = (userAgent: string) => {
   let browser = "unkown";
   // Detect browser name

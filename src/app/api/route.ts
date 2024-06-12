@@ -1,20 +1,11 @@
 import { NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import data from "moment-timezone/data/meta/latest.json";
-import { getBrowser, getOS } from "./utils";
+import { getBrowser, getOS, getCountryObj } from "./utils";
 import { zodSchema } from "./zodSchema";
+import { getProject } from "@/src/db/data-access/project";
+import { createActivity } from "@/src/db/data-access/activity";
+import { sendResponse } from "./utils";
 
-const { countries, zones } = data;
-
-const db = new PrismaClient();
-
-type CountryObj = { [key in keyof typeof zones]: string };
-let countryObj: CountryObj = {} as CountryObj;
-Object.values(zones).forEach((value) => {
-  const { name } = value;
-  // @ts-ignore
-  countryObj[name] = countries[value.countries[0]].name;
-});
+const countryObj = getCountryObj();
 
 export async function POST(request: NextRequest) {
   const userAgent = request.headers.get("user-agent") || "unknown";
@@ -23,35 +14,16 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const parseResult = zodSchema.parse(body);
-
-    const { projectName, userTimeZone } = parseResult;
+    const { projectName, userTimeZone } = zodSchema.parse(body);
 
     // @ts-ignore
     const country = countryObj[userTimeZone] || "unknown";
-    const project = await db.project.findUnique({
-      where: { name: projectName },
-    });
-    if (!project) return sendResponse(404, { message: "project not found" });
+    await getProject(projectName);
 
-    const analytic = await db.activity.create({
-      data: { browser, country, OS, projectName },
-    });
+    const activity = await createActivity(browser, country, OS, projectName);
 
-    return sendResponse(200, { analytic });
+    return sendResponse(200, { activity });
   } catch (error: any) {
     return sendResponse(400, { message: error.message });
   }
 }
-
-// post events
-
-const sendResponse = (status: number, message: any) => {
-  return new Response(JSON.stringify(message), {
-    status: status,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    },
-  });
-};

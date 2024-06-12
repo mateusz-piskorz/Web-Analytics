@@ -30,3 +30,16 @@ export const getActivity = async (
 
   return { activity: currentPeriodData.activity, onePeriodAgoCount };
 };
+
+export const createActivity = async (
+  browser: string,
+  country: string,
+  OS: string,
+  projectName: string
+) => {
+  const activity = await db.activity.create({
+    data: { browser, country, OS, projectName },
+  });
+
+  return activity;
+};
