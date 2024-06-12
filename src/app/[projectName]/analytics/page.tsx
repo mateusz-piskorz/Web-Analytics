@@ -6,16 +6,6 @@ import { getEventsGtePeriod } from "@/src/db//data-access/event";
 import { EventsProvider } from "./_context";
 import { Chart } from "./_features/Chart";
 
-type DashboardProps = {
-  params: { projectName: string };
-  searchParams: { analyticPeriod: string | undefined };
-};
-
-type AnalyticsProps = {
-  params: { projectName: string };
-  analyticPeriod: Period;
-};
-
 const AnalyicsPage: FC<DashboardProps> = async ({
   params,
   searchParams: { analyticPeriod },
@@ -35,10 +25,8 @@ const Analytics: FC<AnalyticsProps> = async ({
   analyticPeriod,
   params: { projectName },
 }) => {
-  const events = await getEventsGtePeriod(
-    projectName,
-    PERIODS_AGO[analyticPeriod][1]
-  );
+  const [period, onePeriodAgo] = PERIODS_AGO[analyticPeriod];
+  const events = await getEventsGtePeriod(projectName, onePeriodAgo);
 
   return (
     <EventsProvider eventsArr={events}>
@@ -46,6 +34,16 @@ const Analytics: FC<AnalyticsProps> = async ({
       <EventList title="events" />
     </EventsProvider>
   );
+};
+
+type DashboardProps = {
+  params: { projectName: string };
+  searchParams: { analyticPeriod: string | undefined };
+};
+
+type AnalyticsProps = {
+  params: { projectName: string };
+  analyticPeriod: Period;
 };
 
 export default AnalyicsPage;
