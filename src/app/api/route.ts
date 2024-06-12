@@ -13,30 +13,8 @@ Object.values(zones).forEach((value) => {
   // @ts-ignore
   countryObj[name] = countries[value.countries[0]].name;
 });
-let i = 0;
-
-const allowedOrigins = process.env.CORS?.split(",");
-
-export async function GET(request: NextRequest) {
-  try {
-    const project = await db.project.findMany();
-
-    return NextResponse.json({ project });
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message });
-  }
-}
 
 export async function POST(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  const isCorsDisabled = allowedOrigins === undefined;
-  const isCorsAllowAll = allowedOrigins?.includes("*");
-  const isOriginAllowed = origin && allowedOrigins?.includes(origin);
-
-  if (!isCorsAllowAll || isCorsDisabled || isOriginAllowed) {
-    return sendResponse(400, { message: "origin not allowed" });
-  }
-
   const userAgent = request.headers.get("user-agent") || "unknown";
   const browser = getBrowser(userAgent);
   const OS = getOS(userAgent);
