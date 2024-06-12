@@ -9,15 +9,19 @@ export const getEvents = async (
   onePeriodAgo: Date
 ) => {
   const [currentPeriodData, onePeriodAgoData] = await db.$transaction([
-    db.event.findMany({
+    db.project.findUnique({
       where: {
-        projectName,
+        name: projectName,
       },
 
       include: {
-        labels: {
-          where: { createdAt: { gte: currentPeriod } },
-          orderBy: { createdAt: "desc" },
+        events: {
+          include: {
+            labels: {
+              where: { createdAt: { gte: currentPeriod } },
+              orderBy: { createdAt: "desc" },
+            },
+          },
         },
       },
     }),
@@ -28,13 +32,14 @@ export const getEvents = async (
       include: {
         labels: {
           where: { createdAt: { gte: onePeriodAgo, lt: currentPeriod } },
-          orderBy: { createdAt: "desc" },
         },
       },
     }),
   ]);
 
-  const myData = currentPeriodData.map((e, index) => {
+  if (currentPeriodData == null) throw new Error("project not found");
+
+  const myData = currentPeriodData.events.map((e, index) => {
     const onePeriodAgoE = onePeriodAgoData[index];
 
     return { ...e, labelsOnePeriodAgo: onePeriodAgoE.labels };

@@ -1,23 +1,32 @@
 "use server";
 import { db } from "../constants";
 
-export const getActivityGtePeriod = async (
+export const getActivity = async (
   projectName: string,
-  period: Date
+  currentPeriod: Date,
+  onePeriodAgo: Date
 ) => {
-  const data = await db.project.findUnique({
-    where: {
-      name: projectName,
-    },
-    include: {
-      activity: {
-        where: { createdAt: { gte: period } },
-        orderBy: { createdAt: "desc" },
+  const [currentPeriodData, onePeriodAgoCount] = await db.$transaction([
+    db.project.findUnique({
+      where: {
+        name: projectName,
       },
-    },
-  });
+      include: {
+        activity: {
+          where: { createdAt: { gte: currentPeriod } },
+          orderBy: { createdAt: "desc" },
+        },
+      },
+    }),
+    db.activity.count({
+      where: {
+        projectName,
+        createdAt: { gte: onePeriodAgo, lt: currentPeriod },
+      },
+    }),
+  ]);
 
-  if (data == null) throw new Error("project not found");
+  if (currentPeriodData == null) throw new Error("project not found");
 
-  return data;
+  return { activity: currentPeriodData.activity, onePeriodAgoCount };
 };

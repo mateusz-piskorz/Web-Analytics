@@ -5,9 +5,7 @@ import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
 import { countAnalytics } from "./utils";
 import style from "./styles.module.scss";
-import { getActivityGtePeriod } from "@/src/db/data-access/activity";
-import { splitDataByDate } from "@/src/utils";
-// import { DashboardPlaceholder } from "./_features/Dashboard/DashboardPlaceholder";
+import { getActivity } from "@/src/db/data-access/activity";
 
 const DashboardPage: FC<DashboardPageProps> = async ({
   params,
@@ -28,17 +26,21 @@ const Dashboard: FC<DashboardProps> = async ({
   analyticPeriod,
 }) => {
   const [period, onePeriodAgo] = PERIODS_AGO[analyticPeriod];
-  const { activity } = await getActivityGtePeriod(projectName, onePeriodAgo);
-  const { newestData, dataOnePeriodAgo } = splitDataByDate(activity, period);
-  const { countries, browsers, OSs } = countAnalytics(newestData);
+  const { activity, onePeriodAgoCount } = await getActivity(
+    projectName,
+    period,
+    onePeriodAgo
+  );
+
+  const { countries, browsers, OSs } = countAnalytics(activity);
 
   return (
     <>
       <ActivityGraph
-        data={newestData}
+        data={activity}
         period={analyticPeriod}
-        total={newestData.length}
-        totalPeriodAgo={dataOnePeriodAgo.length}
+        total={activity.length}
+        totalPeriodAgo={onePeriodAgoCount}
       />
       <div className={style.ActivityListContainer}>
         <ActivityList title="Countries" list={countries} />
