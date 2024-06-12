@@ -1,8 +1,7 @@
 "use client";
 import React, { FC, useContext, ReactNode, useState } from "react";
-import { countEvents, CountedEvents } from "./utils";
+import { CountedEvents } from "./utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
-import { Period } from "@/src/types";
 
 export type Data = {
   name: string;
@@ -11,13 +10,11 @@ export type Data = {
 };
 
 type ContextType = {
-  filteredData: EventWithLabels["labels"];
-  data: EventWithLabels[];
+  events: EventWithLabels[];
   currentEvent: string;
   toggleEvent: (eventName: string, labels: string[]) => void;
   filter: string[];
   toggleFilter: (label: string) => void;
-  period: Period;
 };
 
 const Context = React.createContext<ContextType | null>(null);
@@ -26,28 +23,18 @@ export const useEvents = () => {
   const context = useContext(Context);
   if (context === null) {
     throw new Error("useUser context is undefined");
-  } else {
-    return context;
   }
+  return context;
 };
 
 export const EventsProvider: FC<{
   children?: ReactNode;
-  eventsArr: EventWithLabels[];
-  period: Period;
-}> = ({ children, eventsArr, period }) => {
-  const defaultEvent = eventsArr.find((e) => e.labels.length > 0);
+  events: EventWithLabels[];
+}> = ({ children, events }) => {
+  const defaultEvent = events.find((e) => e.labels.length > 0);
   const [currentEvent, setCurrentEvent] = useState(defaultEvent?.name || "");
   const [filter, setFilter] = useState(
     defaultEvent?.labels.map((e) => e.name) || []
-  );
-
-  const currentEventData = eventsArr.find((e) => e.name === currentEvent) || {
-    labels: [],
-  };
-
-  const filteredData = currentEventData.labels.filter(({ name }) =>
-    filter.includes(name)
   );
 
   const toggleEvent = (eventName: string, labels: string[]) => {
@@ -73,13 +60,11 @@ export const EventsProvider: FC<{
   return (
     <Context.Provider
       value={{
-        toggleEvent,
         currentEvent,
-        filteredData,
         filter,
+        events,
+        toggleEvent,
         toggleFilter,
-        data: eventsArr,
-        period,
       }}
     >
       {children}

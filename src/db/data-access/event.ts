@@ -1,23 +1,44 @@
 "use server";
 import { db } from "../constants";
-import { Prisma } from "@prisma/client";
 
-export type EventWithLabels = Prisma.EventGetPayload<{
-  include: { labels: true };
-}>;
+export type EventWithLabels = Awaited<ReturnType<typeof getEvents>>[0];
 
-export const getEventsGtePeriod = async (projectName: string, period: Date) => {
-  const data = await db.event.findMany({
-    where: {
-      projectName,
-    },
-    include: {
-      labels: {
-        where: { createdAt: { gte: period } },
-        orderBy: { createdAt: "desc" },
+export const getEvents = async (
+  projectName: string,
+  currentPeriod: Date,
+  onePeriodAgo: Date
+) => {
+  const [currentPeriodData, onePeriodAgoData] = await db.$transaction([
+    db.event.findMany({
+      where: {
+        projectName,
       },
-    },
+
+      include: {
+        labels: {
+          where: { createdAt: { gte: currentPeriod } },
+          orderBy: { createdAt: "desc" },
+        },
+      },
+    }),
+    db.event.findMany({
+      where: {
+        projectName,
+      },
+      include: {
+        labels: {
+          where: { createdAt: { gte: onePeriodAgo, lt: currentPeriod } },
+          orderBy: { createdAt: "desc" },
+        },
+      },
+    }),
+  ]);
+
+  const myData = currentPeriodData.map((e, index) => {
+    const onePeriodAgoE = onePeriodAgoData[index];
+
+    return { ...e, labelsOnePeriodAgo: onePeriodAgoE.labels };
   });
 
-  return data;
+  return myData;
 };

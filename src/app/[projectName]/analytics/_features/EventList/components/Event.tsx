@@ -2,9 +2,6 @@ import React, { FC } from "react";
 import { useEvents } from "../../../_context";
 import { ListItem } from "@/src/features/ListItem";
 import style from "./Event.module.scss";
-import { Data } from "../../../_context";
-import { splitDataByDate } from "@/src/utils";
-import { PERIODS_AGO } from "@/src/constants";
 import { countEvents } from "../../../_context/utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
 
@@ -13,17 +10,11 @@ type SingleListProps = {
 };
 
 export const Event: FC<SingleListProps> = ({ event: { name, labels } }) => {
-  const { currentEvent, toggleEvent, filter, toggleFilter, period } =
-    useEvents();
+  const { currentEvent, toggleEvent, filter, toggleFilter } = useEvents();
   const isSelected = currentEvent === name;
 
-  const { newestData: newestLabels } = splitDataByDate(
-    labels,
-    PERIODS_AGO[period][0]
-  );
-
-  const labels2 = countEvents(newestLabels);
-  const total = newestLabels.length;
+  const countedLabels = countEvents(labels);
+  const total = labels.length;
 
   return (
     <div className={style.EventList}>
@@ -31,7 +22,7 @@ export const Event: FC<SingleListProps> = ({ event: { name, labels } }) => {
         onClick={() =>
           toggleEvent(
             name,
-            labels2.map((e) => e.name)
+            countedLabels.map((e) => e.name)
           )
         }
         lightBg={isSelected}
@@ -40,7 +31,7 @@ export const Event: FC<SingleListProps> = ({ event: { name, labels } }) => {
       />
       {isSelected && (
         <div className={`${style.EventList} ${style.EventList__nested}`}>
-          {labels2.map(({ eventName, name, value }) => {
+          {countedLabels.map(({ eventName, name, value }) => {
             return (
               <ListItem
                 onClick={() => toggleFilter(name)}

@@ -10,12 +10,12 @@ type EventListProps = {
 };
 
 export const EventList: FC<EventListProps> = ({ title }) => {
-  const { data } = useEvents();
+  const { events } = useEvents();
 
   return (
     <BoxContainer title={title}>
       <div className={style.List}>
-        {data.map((event, index) => {
+        {events.map((event, index) => {
           return <Event event={event} key={index} />;
         })}
       </div>

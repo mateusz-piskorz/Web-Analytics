@@ -2,7 +2,7 @@ import React, { FC, Suspense } from "react";
 import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
 import { EventList } from "./_features/EventList";
-import { getEventsGtePeriod } from "@/src/db//data-access/event";
+import { getEvents } from "@/src/db//data-access/event";
 import { EventsProvider } from "./_context";
 import { Chart } from "./_features/Chart";
 
@@ -26,10 +26,10 @@ const Analytics: FC<AnalyticsProps> = async ({
   params: { projectName },
 }) => {
   const [period, onePeriodAgo] = PERIODS_AGO[analyticPeriod];
-  const events = await getEventsGtePeriod(projectName, onePeriodAgo);
+  const events = await getEvents(projectName, period, onePeriodAgo);
 
   return (
-    <EventsProvider eventsArr={events} period={analyticPeriod}>
+    <EventsProvider events={events}>
       <Chart />
       <EventList title="events" />
     </EventsProvider>

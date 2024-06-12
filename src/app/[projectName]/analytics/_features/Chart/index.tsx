@@ -4,26 +4,32 @@ import React from "react";
 import { useEvents } from "../../_context";
 import { useSearchParams } from "next/navigation";
 import { Period } from "@/src/types";
-import { splitDataByDate } from "@/src/utils";
-import { PERIODS_AGO } from "@/src/constants";
 
 export const Chart = () => {
-  const { filteredData } = useEvents();
+  const { events, currentEvent, filter } = useEvents();
   const searchParams = useSearchParams();
   const period = (searchParams.get("analyticPeriod")?.toString() ||
     "7") as Period;
 
-  const { newestData, dataOnePeriodAgo } = splitDataByDate(
-    filteredData,
-    PERIODS_AGO[period][0]
+  const currentEventData = events.find((e) => e.name === currentEvent) || {
+    labels: [],
+    labelsOnePeriodAgo: [],
+  };
+
+  const filteredData = currentEventData.labels.filter(({ name }) =>
+    filter.includes(name)
+  );
+
+  const filteredOldData = currentEventData.labelsOnePeriodAgo.filter(
+    ({ name }) => filter.includes(name)
   );
 
   return (
     <ActivityGraph
-      data={newestData}
+      data={filteredData}
       period={period}
-      total={newestData.length}
-      totalPeriodAgo={dataOnePeriodAgo.length}
+      total={filteredData.length}
+      totalPeriodAgo={filteredOldData.length}
     />
   );
 };
