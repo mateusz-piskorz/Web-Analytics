@@ -1,25 +1,22 @@
 import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { zodSchema } from "./zodSchema";
 
 const db = new PrismaClient();
 
 export async function POST(request: NextRequest) {
-  //   const origin = request.headers.get("origin");
-  //   const isCorsDisabled = allowedOrigins === undefined;
-  //   const isCorsAllowAll = allowedOrigins?.includes("*");
-  //   const isOriginAllowed = origin && allowedOrigins?.includes(origin);
-
-  //   if (!isCorsAllowAll || isCorsDisabled || isOriginAllowed) {
-  //     return sendResponse(400, { message: "origin not allowed" });
-  //   }
-
   try {
-    const { projectName, eventName, label } = await request.json();
+    const body = await request.json();
+    const parseResult = zodSchema.parse(body);
+
+    const { projectName, eventName, label } = parseResult;
+
     const project = await db.project.findUnique({
       where: { name: projectName },
     });
 
     if (!project) return sendResponse(404, { message: "project not found" });
+
     const event = await db.event.findUnique({ where: { name: eventName } });
 
     if (!event) {

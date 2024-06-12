@@ -1,7 +1,9 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import data from "moment-timezone/data/meta/latest.json";
 import { getBrowser, getOS } from "./utils";
+import { zodSchema } from "./zodSchema";
+
 const { countries, zones } = data;
 
 const db = new PrismaClient();
@@ -20,7 +22,10 @@ export async function POST(request: NextRequest) {
   const OS = getOS(userAgent);
 
   try {
-    const { userTimeZone, projectName } = await request.json();
+    const body = await request.json();
+    const parseResult = zodSchema.parse(body);
+
+    const { projectName, userTimeZone } = parseResult;
 
     // @ts-ignore
     const country = countryObj[userTimeZone] || "unknown";
