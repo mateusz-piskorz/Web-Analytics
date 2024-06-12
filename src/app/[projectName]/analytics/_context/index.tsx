@@ -2,19 +2,22 @@
 import React, { FC, useContext, ReactNode, useState } from "react";
 import { countEvents, CountedEvents } from "./utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
+import { Period } from "@/src/types";
 
 export type Data = {
   name: string;
   total: number;
   labels: CountedEvents;
 };
+
 type ContextType = {
   filteredData: EventWithLabels["labels"];
-  data: Data[];
+  data: EventWithLabels[];
   currentEvent: string;
-  toggleEvent: (eventName: string) => void;
+  toggleEvent: (eventName: string, labels: string[]) => void;
   filter: string[];
   toggleFilter: (label: string) => void;
+  period: Period;
 };
 
 const Context = React.createContext<ContextType | null>(null);
@@ -31,20 +34,13 @@ export const useEvents = () => {
 export const EventsProvider: FC<{
   children?: ReactNode;
   eventsArr: EventWithLabels[];
-}> = ({ children, eventsArr }) => {
+  period: Period;
+}> = ({ children, eventsArr, period }) => {
   const defaultEvent = eventsArr.find((e) => e.labels.length > 0);
   const [currentEvent, setCurrentEvent] = useState(defaultEvent?.name || "");
   const [filter, setFilter] = useState(
     defaultEvent?.labels.map((e) => e.name) || []
   );
-
-  const data = eventsArr.map((e) => {
-    return {
-      name: e.name,
-      total: e.labels.length,
-      labels: countEvents(e.labels),
-    };
-  });
 
   const currentEventData = eventsArr.find((e) => e.name === currentEvent) || {
     labels: [],
@@ -54,15 +50,13 @@ export const EventsProvider: FC<{
     filter.includes(name)
   );
 
-  const toggleEvent = (eventName: string) => {
+  const toggleEvent = (eventName: string, labels: string[]) => {
     if (currentEvent === eventName) {
       setCurrentEvent("");
       setFilter([]);
     } else {
       setCurrentEvent(eventName);
-      setFilter(
-        data.find((e) => e.name === eventName)!.labels.map((e) => e.name)
-      );
+      setFilter(labels);
     }
   };
 
@@ -84,7 +78,8 @@ export const EventsProvider: FC<{
         filteredData,
         filter,
         toggleFilter,
-        data,
+        data: eventsArr,
+        period,
       }}
     >
       {children}
