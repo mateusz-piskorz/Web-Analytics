@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { zodSchema } from "./zodSchema";
-
-const db = new PrismaClient();
+import { getProject } from "@/src/db/data-access/project";
+import { getEvent, createEvent, createLabel } from "@/src/db/data-access/event";
+import { sendResponse } from "../../api/utils";
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,34 +11,16 @@ export async function POST(request: NextRequest) {
 
     const { projectName, eventName, label } = parseResult;
 
-    const project = await db.project.findUnique({
-      where: { name: projectName },
-    });
+    await getProject(projectName);
 
-    if (!project) return sendResponse(404, { message: "project not found" });
-
-    const event = await db.event.findUnique({ where: { name: eventName } });
-
-    if (!event) {
-      await db.event.create({ data: { name: eventName, projectName } });
+    if (await getEvent(eventName)) {
+      await createEvent(eventName, projectName);
     }
 
-    const newEventLabel = await db.eventLabel.create({
-      data: { name: label, eventName },
-    });
+    const eventLabel = await createLabel(label, eventName);
 
-    return sendResponse(200, { newEventLabel });
+    return sendResponse(200, { eventLabel });
   } catch (error: any) {
     return sendResponse(400, { message: error.message });
   }
 }
-
-const sendResponse = (status: number, message: any) => {
-  return new Response(JSON.stringify(message), {
-    status: status,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    },
-  });
-};

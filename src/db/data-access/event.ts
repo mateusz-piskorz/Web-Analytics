@@ -3,6 +3,20 @@ import { db } from "../constants";
 
 export type EventWithLabels = Awaited<ReturnType<typeof getEvents>>[0];
 
+export const getEvent = async (eventName: string) => {
+  return await db.event.findUnique({ where: { name: eventName } });
+};
+
+export const createEvent = async (eventName: string, projectName: string) => {
+  return await db.event.create({ data: { name: eventName, projectName } });
+};
+
+export const createLabel = async (label: string, eventName: string) => {
+  return await db.eventLabel.create({
+    data: { name: label, eventName },
+  });
+};
+
 export const getEvents = async (
   projectName: string,
   currentPeriod: Date,
