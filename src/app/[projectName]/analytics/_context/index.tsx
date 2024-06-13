@@ -2,6 +2,7 @@
 import React, { FC, useContext, ReactNode, useState, useEffect } from "react";
 import { CountedEvents } from "./utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
+import { Period } from "@/src/types";
 
 export type Data = {
   name: string;
@@ -29,8 +30,10 @@ export const useEvents = () => {
 
 export const EventsProvider: FC<{
   children?: ReactNode;
+  projectName: string;
+  analyticPeriod: Period;
   eventsData: EventWithLabels[];
-}> = ({ children, eventsData }) => {
+}> = ({ children, eventsData, analyticPeriod, projectName }) => {
   const [events, setEvents] = useState(eventsData);
   const defaultEvent = events.find((e) => e.labels.length > 0);
   const [currentEvent, setCurrentEvent] = useState(defaultEvent?.name || "");
@@ -42,11 +45,9 @@ export const EventsProvider: FC<{
     const fetchData = async () => {
       try {
         const res = await fetch(
-          `/event/api?analyticPeriod=7&projectName=multi-step-form`
+          `/event/api?analyticPeriod=${analyticPeriod}&projectName=${projectName}`
         );
-        const data = await res.json();
-        console.log(data);
-        setEvents(data);
+        setEvents(await res.json());
       } catch (err) {
         console.log(err);
       }

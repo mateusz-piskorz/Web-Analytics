@@ -29,7 +29,11 @@ const Analytics: FC<AnalyticsProps> = async ({
   const events = await getEvents(projectName, period, onePeriodAgo);
 
   return (
-    <EventsProvider eventsData={events}>
+    <EventsProvider
+      eventsData={events}
+      projectName={projectName}
+      analyticPeriod={analyticPeriod}
+    >
       <Chart />
       <EventList title="events" />
     </EventsProvider>
