@@ -11,6 +11,7 @@ model Project {
   id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   name      String     @unique
+  nameLabel String
   href      String
   hrefLabel String
   activity  Activity[]

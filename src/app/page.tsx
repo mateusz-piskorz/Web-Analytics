@@ -1,19 +1,29 @@
-import styles from "./page.module.scss";
+import style from "./page.module.scss";
 import Link from "next/link";
 import { getAllProjects } from "@/src/db/data-access/project";
+import Image from "next/image";
 
 const Home = async () => {
   const projects = await getAllProjects();
 
   return (
-    <main>
+    <main className={style.Main}>
+      <div>
+        <h1 className={style.Main_Title}>
+          <span>Web </span>Analytics
+        </h1>
+        <Image src="/chartImg.svg" alt="chart image" width={325} height={235} />
+      </div>
       <nav>
-        <ul className={styles.List}>
+        <ul>
           {projects.length ? (
-            projects.map(({ name }, index) => (
+            projects.map(({ name, nameLabel }, index) => (
               <li key={index}>
-                <Link className={styles.List_Item} href={`${name}/dashboard`}>
-                  {name}
+                <Link
+                  className={style.Main_ListItem}
+                  href={`${name}/dashboard`}
+                >
+                  {nameLabel}
                 </Link>
               </li>
             ))

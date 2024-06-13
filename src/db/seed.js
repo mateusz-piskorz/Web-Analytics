@@ -14,23 +14,27 @@ const load = async () => {
       data: [
         {
           name: "audiophile-ecommerce-website",
+          nameLabel: "Audiophile Ecommerce Website",
           href: "https://github.com/epickaowca/audiophile-ecommerce-website",
           hrefLabel: "audiophile-ecommerce-website.app",
         },
 
         {
           name: "google-drive-clone",
+          nameLabel: "Google Drive Clone",
           href: "https://github.com/epickaowca/google-drive-clone",
           hrefLabel: "google-drive-clone.app",
         },
 
         {
           name: "interactive-comments-section",
+          nameLabel: "Interactive Comments Section",
           href: "https://github.com/epickaowca/interactive-comments-section",
           hrefLabel: "interactive-comments-section.app",
         },
         {
           name: "multi-step-form",
+          nameLabel: "Multi Step Form",
           href: "https://github.com/epickaowca/multi-step-form",
           hrefLabel: "multi-step-form.app",
         },
