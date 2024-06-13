@@ -13,7 +13,9 @@ export const useRefetch = (
         const res = await fetch(
           `/${endpoint}?analyticPeriod=${analyticPeriod}&projectName=${projectName}`
         );
-        onSuccess(await res.json());
+        const data = await res.json();
+        if (!res.ok) throw new Error(data);
+        onSuccess(data);
       } catch (err) {
         console.log(err);
       }

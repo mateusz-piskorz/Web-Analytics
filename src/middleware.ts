@@ -11,12 +11,8 @@ export function middleware(request: NextRequest) {
   const isOriginAllowed = origin && allowedOrigins?.includes(origin);
 
   if (!isCorsAllowAll && (isCorsDisabled || !isOriginAllowed)) {
-    return new Response(JSON.stringify("origin not allowed"), {
+    return new Response(JSON.stringify(`${origin} - origin not allowed`), {
       status: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      },
     });
   }
 
