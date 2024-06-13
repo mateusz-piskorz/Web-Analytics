@@ -1,6 +1,8 @@
 "use server";
 import { db } from "../constants";
 
+export type ActivityData = Awaited<ReturnType<typeof getActivity>>;
+
 export const getActivity = async (
   projectName: string,
   currentPeriod: Date,

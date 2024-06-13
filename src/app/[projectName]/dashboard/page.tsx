@@ -3,9 +3,10 @@ import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "./_features/ActivityList";
 import { PERIODS_AGO } from "@/src/constants";
 import { Period } from "@/src/types";
-import { countAnalytics } from "./utils";
+import { countAnalytics } from "./_features/DashboardClient/utils";
 import style from "./styles.module.scss";
 import { getActivity } from "@/src/db/data-access/activity";
+import { DashboardClient } from "./_features/DashboardClient";
 
 const DashboardPage: FC<DashboardPageProps> = async ({
   params,
@@ -26,28 +27,14 @@ const Dashboard: FC<DashboardProps> = async ({
   analyticPeriod,
 }) => {
   const [period, onePeriodAgo] = PERIODS_AGO[analyticPeriod];
-  const { activity, onePeriodAgoCount } = await getActivity(
-    projectName,
-    period,
-    onePeriodAgo
-  );
-
-  const { countries, browsers, OSs } = countAnalytics(activity);
+  const data = await getActivity(projectName, period, onePeriodAgo);
 
   return (
-    <>
-      <ActivityGraph
-        data={activity}
-        period={analyticPeriod}
-        total={activity.length}
-        totalPeriodAgo={onePeriodAgoCount}
-      />
-      <div className={style.ActivityListContainer}>
-        <ActivityList title="Countries" list={countries} />
-        <ActivityList title="Browsers" list={browsers} />
-        <ActivityList title="Operating Systems" list={OSs} />
-      </div>
-    </>
+    <DashboardClient
+      analyticPeriod={analyticPeriod}
+      initData={data}
+      projectName={projectName}
+    />
   );
 };
 
