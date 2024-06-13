@@ -6,6 +6,7 @@ import { countAnalytics } from "./utils";
 import { ActivityGraph } from "@/src/features/ActivityGraph";
 import { ActivityList } from "../ActivityList";
 import style from "./styles.module.scss";
+import { useRefetch } from "@/src/hooks/useRefetch";
 
 type DashboardClientProps = {
   initData: ActivityData;
@@ -22,25 +23,7 @@ export const DashboardClient: FC<DashboardClientProps> = ({
 
   const { countries, browsers, OSs } = countAnalytics(activity);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `/api?analyticPeriod=${analyticPeriod}&projectName=${projectName}`
-        );
-        setData(await res.json());
-      } catch (err) {
-        console.log(err);
-      }
-      setTimeout(() => {
-        fetchData();
-      }, 15000);
-    };
-
-    setTimeout(() => {
-      fetchData();
-    }, 15000);
-  }, []);
+  useRefetch(projectName, analyticPeriod, setData, "api");
 
   return (
     <>

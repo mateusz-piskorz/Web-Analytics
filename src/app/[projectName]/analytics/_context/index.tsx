@@ -3,6 +3,7 @@ import React, { FC, useContext, ReactNode, useState, useEffect } from "react";
 import { CountedEvents } from "./utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
 import { Period } from "@/src/types";
+import { useRefetch } from "@/src/hooks/useRefetch";
 
 export type Data = {
   name: string;
@@ -41,27 +42,7 @@ export const EventsProvider: FC<{
     defaultEvent?.labels.map((e) => e.name) || []
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `/event/api?analyticPeriod=${analyticPeriod}&projectName=${projectName}`
-        );
-        setEvents(await res.json());
-      } catch (err) {
-        console.log(err);
-      }
-      setTimeout(() => {
-        fetchData();
-      }, 10000);
-    };
-
-    setTimeout(() => {
-      fetchData();
-    }, 15000);
-  }, []);
-
-  // analyticPeriod, projectName
+  useRefetch(projectName, analyticPeriod, setEvents, "event/api");
 
   const toggleEvent = (eventName: string, labels: string[]) => {
     if (currentEvent === eventName) {
