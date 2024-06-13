@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useContext, ReactNode, useState } from "react";
+import React, { FC, useContext, ReactNode, useState, useEffect } from "react";
 import { CountedEvents } from "./utils";
 import { EventWithLabels } from "@/src/db/data-access/event";
 
@@ -29,13 +29,38 @@ export const useEvents = () => {
 
 export const EventsProvider: FC<{
   children?: ReactNode;
-  events: EventWithLabels[];
-}> = ({ children, events }) => {
+  eventsData: EventWithLabels[];
+}> = ({ children, eventsData }) => {
+  const [events, setEvents] = useState(eventsData);
   const defaultEvent = events.find((e) => e.labels.length > 0);
   const [currentEvent, setCurrentEvent] = useState(defaultEvent?.name || "");
   const [filter, setFilter] = useState(
     defaultEvent?.labels.map((e) => e.name) || []
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `/event/api?analyticPeriod=7&projectName=multi-step-form`
+        );
+        const data = await res.json();
+        console.log(data);
+        setEvents(data);
+      } catch (err) {
+        console.log(err);
+      }
+      setTimeout(() => {
+        fetchData();
+      }, 10000);
+    };
+
+    setTimeout(() => {
+      fetchData();
+    }, 15000);
+  }, []);
+
+  // analyticPeriod, projectName
 
   const toggleEvent = (eventName: string, labels: string[]) => {
     if (currentEvent === eventName) {

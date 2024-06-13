@@ -31,7 +31,7 @@ export const countActivity = (
     const min = time - divider / 2;
     const max = time + divider / 2 + 1;
     activityArray.forEach((activityItem) => {
-      const analyticTime = activityItem.createdAt.getTime();
+      const analyticTime = new Date(activityItem.createdAt).getTime();
       if (analyticTime > min && analyticTime < max) {
         visitors++;
       }

@@ -1,5 +1,5 @@
 "use client";
-import { FC, useId } from "react";
+import { FC } from "react";
 import Image from "next/image";
 import style from "./Select.module.scss";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -7,7 +7,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 export const Select: FC = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
+  const { replace, refresh } = useRouter();
 
   const handleChange = (selectedPeriod: string) => {
     const params = new URLSearchParams(searchParams);
