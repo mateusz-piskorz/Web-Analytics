@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     await getProject(projectName);
 
-    if (await getEvent(eventName)) {
+    if (!(await getEvent(eventName))) {
       await createEvent(eventName, projectName);
     }
 
