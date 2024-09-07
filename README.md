@@ -4,4 +4,7 @@ live: https://web-analytics-sigma.vercel.app
 
 portfolio: https://mateuszpiskorz.pl
 
-todo: memory usage analytics, timescaleDB
+todo: 
+memory usage analytics,
+timescaleDB (optional if prisma supports it),
+document.referer
